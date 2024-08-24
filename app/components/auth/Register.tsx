@@ -28,3 +28,102 @@ const Register: React.FC = () => {
     (state: RootState) => state.auth
   );
 
+  const onSubmit = async (data: RegisterFormInputs) => {
+    try {
+      await dispatch(registerUser(data)).unwrap();
+
+      Swal.fire({
+        title: "Success!",
+        text: "You have registered successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        router.push("/");
+      });
+    } catch (err: unknown) {
+      if (err && typeof err === "object" && "message" in err) {
+        Swal.fire({
+          title: "Error!",
+          text:
+            (err as any).message || "Registration failed. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-3 bg-white rounded shadow-md">
+        <h1 className="text-2xl font-bold text-center">Register</h1>
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block mb-1 text-gray-600">Name</label>
+            <input
+              type="text"
+              {...register("name", { required: "Name is required" })}
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="block mb-1 text-gray-600">Email</label>
+            <input
+              type="email"
+              {...register("email", { required: "Email is required" })}
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="block mb-1 text-gray-600">Password</label>
+            <input
+              type="password"
+              {...register("password", { required: "Password is required" })}
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="block mb-1 text-gray-600">Confirm Password</label>
+            <input
+              type="password"
+              {...register("password_confirmation", {
+                required: "Please confirm your password",
+              })}
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.password_confirmation && (
+              <p className="text-red-500 text-sm">
+                {errors.password_confirmation.message}
+              </p>
+            )}
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50"
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
+        </form>
+        <p className="text-sm text-center text-gray-600">
+          Already have an account?{" "}
+          <a href="/login" className="text-blue-500 hover:underline">
+            Login
+          </a>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
