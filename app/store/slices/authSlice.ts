@@ -39,3 +39,23 @@ const initialState: AuthState = {
   loading: false,
   error: null,
 };
+
+// Async thunk for login
+export const loginUser = createAsyncThunk<
+  AuthResponse, // Return type
+  LoginCredentials, // Argument type
+  { rejectValue: AuthError } // Rejected value type
+>("auth/loginUser", async (loginData, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/auth/login",
+      loginData
+    );
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue({
+      message:
+        error.response?.data?.message || "Login failed. Please try again.",
+    });
+  }
+});
