@@ -80,3 +80,66 @@ export const registerUser = createAsyncThunk<
     });
   }
 });
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    loginSuccess(
+      state,
+      action: PayloadAction<{ user: AuthState["user"]; token: string }>
+    ) {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.loading = false;
+      state.error = null;
+    },
+    logoutSuccess(state) {
+      state.user = null;
+      state.token = null;
+      state.loading = false;
+      state.error = null;
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.authorization.token;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "An error occurred";
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.authorization.token;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "An error occurred";
+      });
+  },
+});
+
+export const { loginSuccess, logoutSuccess, setLoading, setError } =
+  authSlice.actions;
+export default authSlice.reducer;
