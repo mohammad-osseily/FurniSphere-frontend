@@ -1,5 +1,7 @@
 // types/product.ts
 
+import { Pagination } from "./pagination";
+
 export interface Product {
   id: number;
   name: string;
