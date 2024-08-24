@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .neumorphism {
-    border-radius: 27px;
-    box-shadow:
-        5px 5px 10px #d5d5d5,
-        -5px -5px 10px #ebebeb;
+  border-radius: 27px;
+  box-shadow:
+    5px 5px 10px #d5d5d5,
+    -5px -5px 10px #ebebeb;
 }
 body {
-    background-color: #f9f5f6;
+  background-color: #f9f5f6;
 }
