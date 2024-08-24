@@ -59,3 +59,24 @@ export const loginUser = createAsyncThunk<
     });
   }
 });
+
+// Async thunk for registration
+export const registerUser = createAsyncThunk<
+  AuthResponse, // Return type
+  RegisterCredentials, // Argument type
+  { rejectValue: AuthError } // Rejected value type
+>("auth/registerUser", async (registerData, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/auth/register",
+      registerData
+    );
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue({
+      message:
+        error.response?.data?.message ||
+        "Registration failed. Please try again.",
+    });
+  }
+});
