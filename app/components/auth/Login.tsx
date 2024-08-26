@@ -72,3 +72,38 @@ const Login: React.FC = () => {
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
+          <div className="relative">
+            <div className="pb-2">Password</div>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              {...register("password", { required: "Password is required" })}
+              className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
+            />
+            <BsLock className="absolute right-4 top-[55%] transform-translate-y-1/2 text-xl text-black" />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full h-12 bg-primary text-white rounded-full shadow-lg mt-4 hover:opacity-90 hover:text-white"
+          >
+            Log in
+          </button>
+        </form>
+        <div className="text-center text-sm mt-6">
+          <p>
+            Don't have an account?{" "}
+            <Link href="/register" className=" hover:underline">
+              Register
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
