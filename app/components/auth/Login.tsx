@@ -54,3 +54,21 @@ const Login: React.FC = () => {
     }
   };
 
+  return (
+    <div className="flex justify-center bg-login-bg items-center min-h-screen bg-cover bg-center">
+      <div className="w-[600px] h-[600px] bg-white bg-opacity-50 backdrop-blur-xl shadow-lg text-black rounded-lg p-8 font-semibold ">
+        <h1 className="text-3xl text-left">Login</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+          <div className="relative pb-5">
+            <div className="pb-2">Email</div>
+            <input
+              type="email"
+              placeholder="Email"
+              {...register("email", { required: "Email is required" })}
+              className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
+            />
+            <BsPerson className="absolute right-4 top-[55%] transform -translate-y-1/2 text-xl text-black" />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
