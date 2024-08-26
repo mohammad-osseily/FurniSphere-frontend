@@ -1,8 +1,9 @@
-// app/layout.tsx (no "use client")
+// app/layout.tsx
 import { ReactNode } from "react";
 import "../public/static/css/global.css";
 import { Roboto } from "next/font/google";
 import ClientProvider from "./ClientProvider"; // New component
+import NavbarWrapper from "./components/NavbarWrapper"; // Use the new wrapper
 
 export const metadata = {
   title: "FurniSphere",
@@ -17,10 +18,10 @@ export default function RootLayout({ children }: { children: ReactNode[] }) {
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} mx-auto flex w-full flex-col scrollbar scrollbar-track-primary  scrollbar-thumb-secondary md:w-3/4`}
+        className={`${roboto.className} mx-auto flex w-full flex-col scrollbar scrollbar-track-primary  scrollbar `}
       >
+        <NavbarWrapper /> {/* Render Navbar based on the route */}
         <ClientProvider>{children}</ClientProvider>{" "}
-        {/* Move Redux logic here */}
       </body>
     </html>
   );
