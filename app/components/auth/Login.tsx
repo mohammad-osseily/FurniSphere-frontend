@@ -56,7 +56,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex justify-center bg-login-bg items-center min-h-screen bg-cover bg-center">
-      <div className="w-[600px] h-[600px] bg-white bg-opacity-50 backdrop-blur-xl shadow-lg text-black rounded-lg p-8  ">
+      <div className="w-[600px]  bg-white bg-opacity-50 backdrop-blur-xl shadow-lg text-black rounded-lg p-8  ">
         <h1 className="text-3xl text-left">Login</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
           <div className="relative pb-5">
@@ -86,12 +86,14 @@ const Login: React.FC = () => {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="w-full h-12 bg-primary text-white rounded-full shadow-lg mt-4 hover:opacity-90 hover:text-white"
-          >
-            Log in
-          </button>
+          <div className=" flex justify-center">
+            <button
+              type="submit"
+              className="w-36 h-12 bg-primary text-white rounded-full shadow-lg mt-4 hover:opacity-90 hover:text-white"
+            >
+              Log in
+            </button>
+          </div>
         </form>
         <div className="text-center text-sm mt-6">
           <p>
