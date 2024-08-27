@@ -67,3 +67,40 @@ const ProductsPage = () => {
                   className="p-4 bg-white shadow rounded cursor-pointer"
                   onClick={() => openModal(product)} // Open modal when the product card is clicked
                 >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-32 object-cover"
+                  />
+                  <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
+                  <div className="flex justify-between items-center mt-2">
+                    <p className="text-gray-500">${product.price}</p>
+                    <button
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent modal from opening when the button is clicked
+                        handleAddToCart(product);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div>No categories found.</div>
+      )}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onAddToCart={handleAddToCart} // Pass the add to cart handler to the modal
+      />
+    </div>
+  );
+};
+
+export default ProductsPage;
