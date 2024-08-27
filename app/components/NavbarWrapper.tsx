@@ -7,10 +7,12 @@ import Navbar from "./Navbar";
 const NavbarWrapper = () => {
   const pathname = usePathname();
 
-  // Determine if the current path is login or register
-  const showNavbar = !["/login", "/register"].includes(pathname);
+  // Conditionally render Navbar based on route
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
 
-  return showNavbar ? <Navbar /> : null;
+  return <Navbar />;
 };
 
 export default NavbarWrapper;
