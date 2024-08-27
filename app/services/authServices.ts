@@ -31,3 +31,35 @@ export const loginUser = async (email: string, password: string) => {
     throw error;
   }
 };
+
+export const registerUser = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const response = await axios.post(`${API_URL}/register`, {
+      name,
+      email,
+      password,
+      password_confirmation: password,
+    });
+    const { user, authorization } = response.data;
+
+    // Store the token and user details in localStorage
+    localStorage.setItem("token", authorization.token);
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    Swal.fire("Success", "Registration successful!", "success");
+
+    return { user, token: authorization.token };
+  } catch (error: any) {
+    Swal.fire(
+      "Error",
+      error.response?.data?.message || "Registration failed",
+      "error"
+    );
+    throw error;
+  }
+};
