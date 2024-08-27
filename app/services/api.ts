@@ -1,19 +1,13 @@
-// services/api.ts
+import { Product } from "@/types";
 import axios from "axios";
-import Cookies from "js-cookie";
 
-export const api = axios.create({
-  baseURL: "http://localhost:8000/api", // Replace with your API base URL
-});
+const API_BASE_URL = "http://localhost:8000/api"; // Replace with your actual API base URL
 
-// Add a request interceptor to include token
-api.interceptors.request.use(
-  (config) => {
-    const token = Cookies.get("token");
-    if (token) {
-      config.headers!["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+export const fetchProductsByCategory = async (
+  categoryId: number
+): Promise<Product[]> => {
+  const response = await axios.get<Product[]>(
+    `${API_BASE_URL}/categories/${categoryId}/products`
+  );
+  return response.data;
+};
