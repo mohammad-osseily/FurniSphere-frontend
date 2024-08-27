@@ -4,24 +4,29 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { logoutUser, getCurrentUser, User } from "../services/authServices";
+import { logoutUser } from "../services/authServices";
+
+interface User {
+  name: string;
+  email: string;
+  role: string;
+}
 
 const Navbar: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Get the current user from local storage
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
   const handleLogout = () => {
-    logoutUser(); // Remove user and token from local storage
+    logoutUser();
     setUser(null);
-    router.push("/login"); // Redirect to login page after logout
+    router.push("/login");
   };
 
   return (
@@ -45,23 +50,36 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex items-center space-x-4">
           {user ? (
-            <div className="dropdown">
-              <label tabIndex={0} className="cursor-pointer">
-                <span className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">
-                  Profile
-                </span>
-              </label>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-              >
-                <li>
-                  <a href="/profile">Profile</a>
-                </li>
-                <li>
-                  <a onClick={handleLogout}>Logout</a>
-                </li>
-              </ul>
+            <div className="relative">
+              <button className="text-gray-700">Profile</button>
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                <ul>
+                  <li>
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/profile/order-history"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                    >
+                      Order History
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
             <>
