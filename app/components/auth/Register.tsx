@@ -8,6 +8,11 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import { registerUser } from "../../services/authServices";
 import Link from "next/link";
 
+// Import MUI Outlined Icons
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+
 interface RegisterFormInputs {
   name: string;
   email: string;
@@ -61,6 +66,7 @@ const Register: React.FC = () => {
               {...register("name", { required: "Name is required" })}
               className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
             />
+            <PersonOutlineIcon className="absolute right-4 top-[55%] transform -translate-y-1/2 text-xl text-black" />
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
             )}
@@ -73,6 +79,7 @@ const Register: React.FC = () => {
               {...register("email", { required: "Email is required" })}
               className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
             />
+            <EmailOutlinedIcon className="absolute right-4 top-[55%] transform -translate-y-1/2 text-xl text-black" />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
@@ -85,6 +92,7 @@ const Register: React.FC = () => {
               {...register("password", { required: "Password is required" })}
               className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
             />
+            <LockOutlinedIcon className="absolute right-4 top-[55%] transform -translate-y-1/2 text-xl text-black" />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
@@ -99,6 +107,7 @@ const Register: React.FC = () => {
               })}
               className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
             />
+            <LockOutlinedIcon className="absolute right-4 top-[55%] transform -translate-y-1/2 text-xl text-black" />
             {errors.password_confirmation && (
               <p className="text-red-500 text-sm">
                 {errors.password_confirmation.message}
