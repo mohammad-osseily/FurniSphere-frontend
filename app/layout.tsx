@@ -4,6 +4,8 @@ import "../public/static/css/global.css";
 import { Roboto } from "next/font/google";
 import ClientProvider from "./ClientProvider"; // New component
 import NavbarWrapper from "./components/NavbarWrapper"; // Use the new wrapper
+import { Provider } from "react-redux"; // Import Provider
+import { store } from "./store/store"; // Import the store
 
 export const metadata = {
   title: "FurniSphere",
@@ -20,8 +22,10 @@ export default function RootLayout({ children }: { children: ReactNode[] }) {
       <body
         className={`${roboto.className} mx-auto flex w-full flex-col scrollbar scrollbar-track-primary  scrollbar `}
       >
-        <NavbarWrapper /> {/* Render Navbar based on the route */}
-        <ClientProvider>{children}</ClientProvider>{" "}
+        {" "}
+        {/* Wrap everything in the Provider */}
+        <NavbarWrapper />
+        {children}
       </body>
     </html>
   );
