@@ -1,8 +1,7 @@
-// app/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { logoutUser } from "../services/authServices";
 
@@ -14,6 +13,8 @@ interface User {
 
 const Navbar: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,6 +22,20 @@ const Navbar: React.FC = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -50,36 +65,43 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex items-center space-x-4">
           {user ? (
-            <div className="relative">
-              <button className="text-gray-700">Profile</button>
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                <ul>
-                  <li>
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 hover:bg-gray-200"
-                    >
-                      Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/profile/order-history"
-                      className="block px-4 py-2 hover:bg-gray-200"
-                    >
-                      Order History
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-                    >
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="text-gray-700"
+              >
+                Profile
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                  <ul>
+                    <li>
+                      <Link
+                        href="/profile"
+                        className="block px-4 py-2 hover:bg-gray-200"
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/profile/order-history"
+                        className="block px-4 py-2 hover:bg-gray-200"
+                      >
+                        Order History
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           ) : (
             <>
