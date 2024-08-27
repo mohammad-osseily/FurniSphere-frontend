@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { RootState } from "../../store/store";
-import { loginUser } from "../../store/slices/authSlice";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import Link from "next/link";
 import { BsPerson, BsLock } from "react-icons/bs";
+import { loginUser } from "../../services/authServices"; // Import the loginUser function
 
 interface LoginFormInputs {
   email: string;
@@ -17,46 +15,33 @@ interface LoginFormInputs {
 }
 
 const Login: React.FC = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-  const { user, loading, error } = useSelector(
-    (state: RootState) => state.auth
-  );
 
-  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmit = async (data: LoginFormInputs) => {
+    setLoading(true);
     try {
-      await dispatch(loginUser(data)).unwrap();
+      // Call loginUser from authService and pass the form data
+      await loginUser(data.email, data.password);
 
-      Swal.fire({
-        title: "Success!",
-        text: "You have logged in successfully!",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then(() => {
-        router.push("/");
-      });
-    } catch (err: unknown) {
-      if (err && typeof err === "object" && "message" in err) {
-        Swal.fire({
-          title: "Error!",
-          text: (err as any).message || "Login failed. Please try again.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
+      // Navigate to the home page after successful login
+      router.push("/");
+    } catch (error) {
+      // Error handling is already managed in the loginUser function via SweetAlert
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex justify-center bg-login-bg items-center min-h-screen bg-cover bg-center">
-      <div className="w-[600px]  bg-white bg-opacity-50 backdrop-blur-xl shadow-lg text-black rounded-lg p-8  ">
+      <div className="w-[600px] bg-white bg-opacity-50 backdrop-blur-xl shadow-lg text-black rounded-lg p-8">
         <h1 className="text-3xl text-left">Login</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
           <div className="relative pb-5">
@@ -86,19 +71,20 @@ const Login: React.FC = () => {
             )}
           </div>
 
-          <div className=" flex justify-center">
+          <div className="flex justify-center">
             <button
               type="submit"
               className="w-36 h-12 bg-primary text-white rounded-full shadow-lg mt-4 hover:opacity-90 hover:text-white"
+              disabled={loading}
             >
-              Log in
+              {loading ? "Logging in..." : "Log in"}
             </button>
           </div>
         </form>
         <div className="text-center text-sm mt-6">
           <p>
             Don't have an account?{" "}
-            <Link href="/register" className=" hover:underline">
+            <Link href="/register" className="hover:underline">
               Register
             </Link>
           </p>
