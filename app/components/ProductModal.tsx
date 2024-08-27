@@ -18,3 +18,35 @@ interface ProductModalProps {
     image: string;
   }) => void; // New prop for handling Add to Cart
 }
+
+const ProductModal: React.FC<ProductModalProps> = ({
+  product,
+  isOpen,
+  onClose,
+  onAddToCart,
+}) => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen || !product) return null;
+
