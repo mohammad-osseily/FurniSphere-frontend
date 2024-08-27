@@ -69,3 +69,8 @@ export const logoutUser = () => {
   localStorage.removeItem("user");
   Swal.fire("Success", "You have logged out successfully!", "success");
 };
+
+export const getCurrentUser = (): User | null => {
+  const user = localStorage.getItem("user");
+  return user ? (JSON.parse(user) as User) : null;
+};
