@@ -63,3 +63,9 @@ export const registerUser = async (
     throw error;
   }
 };
+
+export const logoutUser = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  Swal.fire("Success", "You have logged out successfully!", "success");
+};
