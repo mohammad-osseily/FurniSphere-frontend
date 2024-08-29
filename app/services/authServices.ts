@@ -30,3 +30,16 @@ export const logoutUser = () => {
     localStorage.removeItem('user');
 };
 
+// Login function
+export const loginUser = async (email: string, password: string) => {
+    const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+    const { token } = response.data.authorization;
+    const { user } = response.data;
+    
+    saveTokenToLocalStorage(token);
+    saveUserToLocalStorage(user);
+
+    return user;
+};
+
+
