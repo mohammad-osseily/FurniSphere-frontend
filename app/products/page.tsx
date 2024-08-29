@@ -28,17 +28,17 @@ const ProductsPage = () => {
     loadCategories();
   }, []);
 
-  const handleAddToCart = async (product: {
-    id: number;
-    name: string;
-    price: number;
-    image: string;
-  }) => {
+  const handleAddToCart = async (product: any) => {
     try {
-      await addToCart(product.id, 1); // Add to cart with quantity 1
-      alert("Product added to cart successfully!");
+      // Extract the product ID from the product object
+      const productId = product.id;
+      
+      // Call the addToCart function with the extracted product ID
+      const response = await addToCart(productId, 1); // Adding 1 quantity of the product
+      console.log("Product added to cart:", response);
+      alert(response.message); // Alert the success message
     } catch (error) {
-      console.error("Failed to add to cart:", error);
+      console.error("Error adding product to cart:", error);
       alert("Failed to add product to cart.");
     }
   };
