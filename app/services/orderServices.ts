@@ -17,3 +17,10 @@ export const saveUserToLocalStorage = (user: any) => {
 export const getTokenFromLocalStorage = () => {
     return localStorage.getItem('token');
 };
+
+// Get user from local storage
+export const getUserFromLocalStorage = () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+};
+
