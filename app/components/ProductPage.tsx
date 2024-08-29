@@ -11,27 +11,28 @@ const ProductPage: React.FC<ProductPageProps> = ({ categories }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
+  const handleAddToCart = async () => {
+    try {
+      await addToCart(product.id, 1); // Add to cart with quantity 1
+      alert("Product added to cart successfully!");
+      onClose();
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+      alert("Failed to add product to cart.");
+    }
   };
 
   return (
     <div className="container mx-auto p-4">
       {categories?.map((category) => (
-        <div key={category.id} className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">{category.name}</h2>
+        <div key={category.id} className="mb-96 ">
+          <div className="text-2xl font-bold mb-4">{category.name}</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {category.products?.map((product: any) => (
               <div
                 key={product.id}
                 className="border rounded-lg p-4 cursor-pointer hover:shadow-lg"
-                onClick={() => handleProductClick(product)}
+                onClick={() => handleAddToCart(product)}
               >
                 <img
                   src={product.image}
