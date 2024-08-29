@@ -1,11 +1,14 @@
+// app/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { logoutUser } from "../services/authServices";
+import { getUserFromLocalStorage, logoutUser } from "../services/authServices";
+import { FaShoppingCart } from "react-icons/fa";
 
 interface User {
+  id: string;
   name: string;
   email: string;
   role: string;
@@ -13,29 +16,20 @@ interface User {
 
 const Navbar: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [cartItemCount, setCartItemCount] = useState<number>(0); // State for cart item count
   const router = useRouter();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setDropdownOpen(false);
+    setTimeout(() => {
+      const storedUser = getUserFromLocalStorage();
+      if (storedUser) {
+        setUser(storedUser);
+        // Assuming you have a function to get cart item count
+        // setCartItemCount(getCartItemCountFromLocalStorageOrApi());
       }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+      setLoading(false);
+    }, 500); // Simulate a delay to show the loading state
   }, []);
 
   const handleLogout = () => {
@@ -64,45 +58,35 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          {user ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="text-gray-700"
-              >
-                Profile
-              </button>
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                  <ul>
-                    <li>
-                      <Link
-                        href="/profile"
-                        className="block px-4 py-2 hover:bg-gray-200"
-                      >
-                        Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/profile/order-history"
-                        className="block px-4 py-2 hover:bg-gray-200"
-                      >
-                        Order History
-                      </Link>
-                    </li>
-                    <li>
-                      <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-                      >
-                        Logout
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
+          {loading ? (
+            <div className="text-gray-700">Loading...</div>
+          ) : user ? (
+            <>
+              <Link href="/cart" className="relative">
+                <FaShoppingCart className="text-2xl text-gray-700" />
+                {cartItemCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Link>
+              <div className="dropdown dropdown-hover">
+                <label tabIndex={0} className="text-gray-700 cursor-pointer">
+                  Profile
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                >
+                  <li>
+                    <Link href="/profile">Profile</Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout}>Logout</button>
+                  </li>
+                </ul>
+              </div>
+            </>
           ) : (
             <>
               <Link
