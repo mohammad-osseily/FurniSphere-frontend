@@ -1,79 +1,59 @@
-// app/services/authServices.ts
 import axios from 'axios';
+import { getTokenFromLocalStorage } from './authServices';
 
 const API_URL = 'http://127.0.0.1:8000/api'; // Your API base URL
 
-// Save token to local storage
-export const saveTokenToLocalStorage = (token: string) => {
-    localStorage.setItem('token', token);
-};
-
-// Save user to local storage
-export const saveUserToLocalStorage = (user: any) => {
-    localStorage.setItem('user', JSON.stringify(user));
-};
-
-// Get token from local storage
-export const getTokenFromLocalStorage = () => {
-    return localStorage.getItem('token');
-};
-
-// Get user from local storage
-export const getUserFromLocalStorage = () => {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
-};
-
-// Remove token and user from local storage
-export const logoutUser = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-};
-
-// Login function
-export const loginUser = async (email: string, password: string) => {
-    const response = await axios.post(`${API_URL}/auth/login`, { email, password });
-    const { token } = response.data.authorization;
-    const { user } = response.data;
-    
-    saveTokenToLocalStorage(token);
-    saveUserToLocalStorage(user);
-
-    return user;
-};
-
-// Register function
-export const registerUser = async (name: string, email: string, password: string, password_confirmation: string) => {
-    const response = await axios.post(`${API_URL}/auth/register`, { name, email, password, password_confirmation });
-    const { token } = response.data.authorization;
-    const { user } = response.data;
-    
-    saveTokenToLocalStorage(token);
-    saveUserToLocalStorage(user);
-
-    return user;
-};
-
-// Logout function
-export const logout = async () => {
+// Add a product to the cart
+export const addToCart = async (productId: number, quantity: number) => {
     const token = getTokenFromLocalStorage();
-    await axios.post(`${API_URL}/auth/logout`, {}, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    logoutUser();
+    
+    if (!token) {
+        throw new Error('User is not authenticated');
+    }
+
+    try {
+        const response = await axios.post(
+            `${API_URL}/cart/products/add`, 
+            { product_id: productId, quantity }, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        console.log("Token used:", token); // Log the token for debugging purposes
+        console.log("Response data:", response.data); // Log the response for debugging
+        return response.data;
+    } catch (error) {
+        console.error("Failed to add product to cart:", error);
+        throw error;
+    }
 };
 
-// Refresh token function
-export const refreshToken = async () => {
+// Example: Implement other cart-related functions here if needed
+export const getCartItems = async () => {
     const token = getTokenFromLocalStorage();
-    const response = await axios.post(`${API_URL}/auth/refresh`, {}, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    const newToken = response.data.authorization.token;
-    saveTokenToLocalStorage(newToken);
-    return newToken;
+    
+    if (!token) {
+        throw new Error('User is not authenticated');
+    }
+
+    try {
+        const response = await axios.get(`${API_URL}/cart/products`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data.cart_products;
+    } catch (error) {
+        console.error("Failed to fetch cart items:", error);
+        throw error;
+    }
+};
+
+// Exporting all functions
+export default {
+    addToCart,
+    getCartItems,
+    // Add more functions here as you implement them
 };
