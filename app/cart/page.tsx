@@ -40,3 +40,16 @@ const CartPage = () => {
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
+
+  if (!cart || cart.cartProducts.length === 0)
+    return <div>Your cart is empty.</div>;
+
+  return (
+    
+  );
+};
+
+export default CartPage;
