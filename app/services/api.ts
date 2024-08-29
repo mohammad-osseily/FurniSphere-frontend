@@ -1,13 +1,16 @@
-import { Product } from "@/types";
+// app/services/api.ts
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000/api"; // Replace with your actual API base URL
+const API = axios.create({
+  baseURL: "http://127.0.0.1:8000/api",
+});
 
-export const fetchProductsByCategory = async (
-  categoryId: number
-): Promise<Product[]> => {
-  const response = await axios.get<Product[]>(
-    `${API_BASE_URL}/categories/${categoryId}/products`
-  );
-  return response.data;
-};
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default API;
