@@ -8,4 +8,9 @@ export const saveTokenToLocalStorage = (token: string) => {
     localStorage.setItem('token', token);
 };
 
+// Save user to local storage
+export const saveUserToLocalStorage = (user: any) => {
+    localStorage.setItem('user', JSON.stringify(user));
+};
+
 
