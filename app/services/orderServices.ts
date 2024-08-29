@@ -24,3 +24,8 @@ export const getUserFromLocalStorage = () => {
     return user ? JSON.parse(user) : null;
 };
 
+// Remove token and user from local storage
+export const logoutUser = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+};
