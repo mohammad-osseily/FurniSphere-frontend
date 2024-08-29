@@ -31,7 +31,23 @@ const OrderHistoryPage = () => {
   if (orders.length === 0) return <div>No orders found.</div>;
 
   return (
-    
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-semibold mb-6">Order History</h1>
+      {orders.map((order) => (
+        <div key={order.id} className="mb-4">
+          <h2 className="text-xl font-semibold">
+            Order #{order.id} - {order.status}
+          </h2>
+          <ul className="ml-4 mt-2">
+            {order.orderItems.map((item) => (
+              <li key={item.id}>
+                {item.product.name} - {item.quantity} x ${item.price}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
   );
 };
 
