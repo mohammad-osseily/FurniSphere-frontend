@@ -12,3 +12,18 @@ const CheckoutPage = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  const handleSubmit = async () => {
+    try {
+      const orderData = {
+        address_line: addressLine,
+        city: city,
+        comment: comment,
+      };
+      await placeOrder(orderData);
+      alert("Order placed successfully!");
+      router.push("/profile/order-history");
+    } catch (err) {
+      setError("Failed to place order");
+    }
+  };
+
