@@ -13,3 +13,7 @@ export const saveUserToLocalStorage = (user: any) => {
     localStorage.setItem('user', JSON.stringify(user));
 };
 
+// Get token from local storage
+export const getTokenFromLocalStorage = () => {
+    return localStorage.getItem('token');
+};
