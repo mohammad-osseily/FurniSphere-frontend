@@ -21,4 +21,17 @@ const CartPage = () => {
     fetchCartItems();
   }, []);
 
+  const handleRemoveFromCart = async (id : any) => {
+    try {
+      await removeProductFromCart(id);
+      setCartItems(cartItems.filter((item :any) => item.id !== id));
+    } catch (error) {
+      console.error("Failed to remove item from cart:", error);
+    }
+  };
+
+  const handleCheckout = () => {
+    router.push("/checkout");
+  };
+
 
