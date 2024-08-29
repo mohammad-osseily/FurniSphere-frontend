@@ -42,4 +42,16 @@ export const loginUser = async (email: string, password: string) => {
     return user;
 };
 
+// Register function
+export const registerUser = async (name: string, email: string, password: string, password_confirmation: string) => {
+    const response = await axios.post(`${API_URL}/auth/register`, { name, email, password, password_confirmation });
+    const { token } = response.data.authorization;
+    const { user } = response.data;
+    
+    saveTokenToLocalStorage(token);
+    saveUserToLocalStorage(user);
+
+    return user;
+};
+
 
