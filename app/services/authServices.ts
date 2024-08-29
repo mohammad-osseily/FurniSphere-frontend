@@ -54,4 +54,15 @@ export const registerUser = async (name: string, email: string, password: string
     return user;
 };
 
+// Logout function
+export const logout = async () => {
+    const token = getTokenFromLocalStorage();
+    await axios.post(`${API_URL}/auth/logout`, {}, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    logoutUser();
+};
+
 
