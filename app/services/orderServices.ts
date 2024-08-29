@@ -65,3 +65,15 @@ export const logout = async () => {
     logoutUser();
 };
 
+// Refresh token function
+export const refreshToken = async () => {
+    const token = getTokenFromLocalStorage();
+    const response = await axios.post(`${API_URL}/auth/refresh`, {}, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    const newToken = response.data.authorization.token;
+    saveTokenToLocalStorage(newToken);
+    return newToken;
+};
