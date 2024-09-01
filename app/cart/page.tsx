@@ -25,7 +25,21 @@ const CartPage = () => {
     fetchCart();
   }, []);
 
-  
+  const handleRemove = async (id: number) => {
+    try {
+      await removeFromCart(id);
+      setCart((prevCart) => {
+        if (!prevCart) return prevCart;
+
+        return {
+          ...prevCart,
+          cart_products: prevCart.cart_products.filter(item => item.id !== id),
+        };
+      });
+    } catch (error) {
+      console.error("Failed to remove item:", error);
+    }
+  };
 
   const handleQuantityChange = async (id: number, quantity: number) => {
     try {
