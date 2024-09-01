@@ -59,3 +59,14 @@ export const getCart = async () => {
     return response.data;
   };
   
+  export const updateCartQuantity = async (productId: number, quantity: number) => {
+    const token = getTokenFromLocalStorage();
+    const response = await axios.post(`${API_URL}/cart/products/${productId}/update`, {
+      quantity,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
