@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { fetchCategoriesWithProducts } from "../services/productService";
 import { Category } from "@/types";
-import ProductModal from "../components/ProductModal";
-import { addToCart } from "../services/orderServices";
+import ProductModal from "../components/ProductModal"; 
+import { addToCart } from "../services/orderServices"; 
 
 const ProductsPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any | null>(null); 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,17 +28,12 @@ const ProductsPage = () => {
     loadCategories();
   }, []);
 
-  const handleAddToCart = async (product: any) => {
+  const handleAddToCart = async (product: { id: number; name: string; price: number; image: string; }) => {
     try {
-      // Extract the product ID from the product object
-      const productId = product.id;
-      
-      // Call the addToCart function with the extracted product ID
-      const response = await addToCart(productId, 1); // Adding 1 quantity of the product
-      console.log("Product added to cart:", response);
-      alert(response.message); // Alert the success message
+      await addToCart(product.id, 1); // Add to cart with quantity 1
+      alert(`${product.name} added to cart successfully!`);
     } catch (error) {
-      console.error("Error adding product to cart:", error);
+      console.error("Failed to add to cart:", error);
       alert("Failed to add product to cart.");
     }
   };
@@ -72,7 +67,7 @@ const ProductsPage = () => {
                 <div
                   key={product.id}
                   className="relative p-4 bg-white shadow rounded-xl cursor-pointer h-80"
-                  onClick={() => openModal(product)}
+                  onClick={() => openModal(product)} 
                   style={{
                     backgroundImage: `url(${product.image})`,
                     backgroundSize: "cover",
@@ -86,7 +81,7 @@ const ProductsPage = () => {
                       <button
                         className="pr-1"
                         onClick={(e) => {
-                          e.stopPropagation(); // Prevent modal from opening when the button is clicked
+                          e.stopPropagation(); 
                           handleAddToCart(product);
                         }}
                       >
