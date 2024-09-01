@@ -39,3 +39,23 @@ export const clearCart = async () => {
 
     return response.data;
 };
+export const getCart = async () => {
+    const token = getTokenFromLocalStorage();
+    const response = await axios.get(`${API_URL}/cart`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
+  
+  export const removeFromCart = async (productId: number) => {
+    const token = getTokenFromLocalStorage();
+    const response = await axios.post(`${API_URL}/cart/products/${productId}/delete`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
+  
