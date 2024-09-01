@@ -24,3 +24,18 @@ export const addToCart = async (productId: number, quantity: number) => {
 };
 
 
+// Clear the cart
+export const clearCart = async () => {
+    const token = getTokenFromLocalStorage();
+    const response = await axios.post(
+        `${API_URL}/cart/clear`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.data;
+};
