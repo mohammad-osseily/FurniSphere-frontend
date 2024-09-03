@@ -15,7 +15,36 @@ const CheckoutPage = () => {
   const [comment, setComment] = useState<string>("");
   const router = useRouter();
 
-  
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const cartData = await getCart();
+        setCart(cartData.cart);
+      } catch (error) {
+        console.error("Failed to load cart:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  const handlePlaceOrder = async () => {
+    if (!cart || cart.cart_products.length === 0) {
+      Swal.fire("Error", "Your cart is empty", "error");
+      return;
+    }
+
+    const orderData = {
+      address_line: address,
+      city: city,
+      comment: comment,
+      items: cart.cart_products.map((item: CartProduct) => ({
+        product_id: item.product_id,
+        quantity: item.quantity,
+      })),
+    };
 
     try {
       await submitOrder(orderData);
