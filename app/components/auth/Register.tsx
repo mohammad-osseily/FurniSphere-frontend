@@ -111,7 +111,7 @@ const Register: React.FC = () => {
           <div className=" flex justify-center">
             <button
               type="submit"
-              className="w-36 h-12 bg-primary text-white rounded-full shadow-lg mt-4 hover:opacity-90 hover:text-white"
+              className="w-36 h-12 bg-primary text-white rounded-xl shadow-lg mt-4 hover:opacity-90 hover:text-white"
             >
               Register
             </button>
