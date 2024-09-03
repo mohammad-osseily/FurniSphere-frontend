@@ -79,7 +79,55 @@ const CartPage = () => {
 
   return (
     <div className="container mx-auto py-10 px-4 space-y-10 lg:flex lg:space-x-10 lg:space-y-0">
-      
+      <div className="w-full lg:w-3/4">
+        <h2 className="text-3xl font-semibold mb-6 text-center lg:text-left">
+          Your Cart List
+        </h2>
+        {cart.cart_products.map((item: CartProduct) => (
+          <div
+            key={item.id}
+            className="flex flex-col lg:flex-row mb-6 items-center lg:space-x-4 space-y-4 lg:space-y-0"
+          >
+            <img
+              src={item.product.image}
+              alt={item.product.name}
+              className="w-32 h-32 object-cover rounded-lg mx-auto lg:mx-0"
+            />
+            <div className="flex-grow text-center lg:text-left">
+              <h3 className="text-xl font-semibold">{item.product.name}</h3>
+              <p>Category: {item.product.category_id || "N/A"}</p>
+              <p>Product Color: {item.product.color}</p>
+              <div className="flex items-center justify-center lg:justify-start space-x-2 mt-2">
+                <button
+                  className="px-2 py-1 border rounded"
+                  onClick={() =>
+                    handleQuantityChange(item.id, item.quantity - 1)
+                  }
+                  disabled={item.quantity <= 1}
+                >
+                  −
+                </button>
+                <span className="text-lg">{item.quantity}</span>
+                <button
+                  className="px-2 py-1 border rounded"
+                  onClick={() =>
+                    handleQuantityChange(item.id, item.quantity + 1)
+                  }
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className="text-lg font-semibold">${item.product.price}</div>
+            <button
+              className="text-red-600"
+              onClick={() => handleRemove(item.id)}
+            >
+              🗑️
+            </button>
+          </div>
+        ))}
+      </div>
       <div className="w-full lg:w-1/4">
         <h2 className="text-3xl font-semibold mb-6 text-center lg:text-left">
           Detail Summary
