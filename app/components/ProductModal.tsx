@@ -1,14 +1,21 @@
-// app/components/ProductModal.tsx
-import React from "react";
-import { IoArrowBack } from "react-icons/io5";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/navigation";
 import { addToCart } from "../services/orderServices"; // Import addToCart service
 
 const ProductModal = ({ product, isOpen, onClose }) => {
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      setTimeout(() => setIsVisible(false), 300); // Wait for animation to finish before unmounting
+    }
+  }, [isOpen]);
+
+  if (!isOpen && !isVisible) return null;
 
   const handleAddToCart = async () => {
     try {
@@ -22,12 +29,16 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="modal-box flex h-2/3 w-full max-w-5xl items-center bg-white   md:w-1/2">
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-35 `}
+    >
+      <div
+        className={`modal-box h-2/3 w-full max-w-5xl flex items-center ${isOpen ? "animate-popIn" : "animate-popOut"} bg-white transition-transform duration-300 transform ${isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"}`}
+      >
         <div className="flex h-full w-full flex-col md:flex-row">
           <div className="flex w-full flex-row items-center justify-center md:w-1/2 md:flex-col">
             <img
-              className="h-3/4 w-3/4"
+              className="h-3/4 w-3/4 rounded-xl"
               src={product.image}
               width={100}
               height={50}
@@ -36,23 +47,23 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           </div>
 
           <div className="flex h-full w-full flex-col pt-4 md:w-1/2">
-            <div className="pb-4 text-4xl text-black md:text-5xl">
+            <div className="pb-4 text-4xl text-black md:text-3xl">
               {product.name}
             </div>
-            <div className="pb-4 text-2xl text-black md:text-3xl">
+            <div className="pb-4 text-2xl text-black md:text-2xl">
               {product.price}$
             </div>
 
-            <div className="pt-4 text-2xl text-black md:text-3xl">
+            <div className="pt-4 text-2xl text-black md:text-2xl">
               Description
             </div>
-            <div className="pt-4 text-lg text-black md:text-2xl break-words">
+            <div className="pt-4 text-lg text-black md:text-xl break-words">
               {product.description}
             </div>
 
             <button
               onClick={handleAddToCart}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="mt-4 px-4 py-2 w-1/4 text-center bg-primary text-white rounded hover:opacity-90"
             >
               Add to Cart
             </button>
@@ -61,7 +72,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             className="cursor-pointer pb-6 pt-6 text-3xl md:pb-0 md:text-4xl"
             onClick={onClose} // Close modal on clicking the arrow
           >
-            <IoArrowBack />
+            <CloseIcon />
           </div>
         </div>
       </div>

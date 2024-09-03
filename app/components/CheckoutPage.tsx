@@ -1,5 +1,5 @@
 // app/components/CheckoutPage.tsx
-'use client';
+"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createOrder } from "../services/orderServices";
@@ -10,7 +10,7 @@ const CheckoutPage = () => {
   const [comment, setComment] = useState("");
   const router = useRouter();
 
-  const handleOrderSubmit = async (e : any) => {
+  const handleOrderSubmit = async (e: any) => {
     e.preventDefault();
     try {
       await createOrder(addressLine, city, comment);

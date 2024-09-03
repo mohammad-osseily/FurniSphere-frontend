@@ -1,27 +1,19 @@
 // types/order.ts
+import { Product } from ".";
 import { Pagination } from "./pagination";
-
-export interface OrderItem {
-  id: number;
-  order_id: number;
-  product_id: number;
-  quantity: number;
-  price: number;
-  created_at: string;
-  updated_at: string;
-}
 
 export interface Order {
   id: number;
-  user_id: number;
-  total_amount: number;
-  status: "pending" | "processing" | "shipped" | "delivered" | "canceled";
-  address_line: string;
-  city: string;
-  comment: string;
-  created_at: string;
-  updated_at: string;
-  order_items: OrderItem[];
+  total_amount: string;
+  status: string;
+  order_items: OrderItem[]; // Adjust the property name to match your API response
+}
+
+export interface OrderItem {
+  id: number;
+  product: Product;
+  quantity: number;
+  price: string;
 }
 
 export type PaginatedOrders = Pagination<Order>;

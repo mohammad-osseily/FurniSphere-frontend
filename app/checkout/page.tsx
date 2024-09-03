@@ -1,65 +1,97 @@
-// app/checkout/page.tsx
 "use client";
 
-import { useState } from "react";
-import { placeOrder } from "../services/orderServices";
+import { useEffect, useState } from "react";
+import { getCart, submitOrder, clearCart } from "../services/orderServices";
+import Swal from "sweetalert2";
+import { Cart } from "@/types/cart";
+import { CartProduct } from "@/types/cartProduct";
 import { useRouter } from "next/navigation";
 
 const CheckoutPage = () => {
-  const [addressLine, setAddressLine] = useState<string>("");
+  const [cart, setCart] = useState<Cart | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [address, setAddress] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [comment, setComment] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  
+
     try {
-      const orderData = {
-        address_line: addressLine,
-        city: city,
-        comment: comment,
-      };
-      await placeOrder(orderData);
-      alert("Order placed successfully!");
-      router.push("/profile/order-history");
-    } catch (err) {
-      setError("Failed to place order");
+      await submitOrder(orderData);
+      await clearCart(); // Clear the cart after placing the order
+      Swal.fire(
+        "Success",
+        "Your order has been placed successfully!",
+        "success",
+      ).then(() => {
+        if (typeof window !== "undefined") {
+          router.push("/"); // Redirect to homepage or orders page after successful order
+        }
+      });
+    } catch (error) {
+      Swal.fire("Error", "Failed to place order. Please try again.", "error");
+      console.error("Failed to place order:", error);
     }
   };
 
+  
+
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-semibold mb-6">Checkout</h1>
-      <div className="mb-4">
-        <label className="block mb-2 text-xl">Address Line</label>
-        <input
-          type="text"
-          value={addressLine}
-          onChange={(e) => setAddressLine(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        />
+    <div className="container mx-auto py-10">
+      <h2 className="text-3xl font-semibold mb-6">Checkout</h2>
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">Shipping Information</h3>
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Address Line"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          />
+          <input
+            type="text"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          />
+          <textarea
+            placeholder="Additional Comments"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="w-full border rounded px-4 py-2"
+          />
+        </div>
       </div>
-      <div className="mb-4">
-        <label className="block mb-2 text-xl">City</label>
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        />
+
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">Order Summary</h3>
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <span>Sub Total:</span>
+            <span>${roundedSubTotal}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Taxes:</span>
+            <span>${taxes}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Delivery Price:</span>
+            <span>${deliveryPrice}</span>
+          </div>
+          <hr />
+          <div className="flex justify-between font-semibold">
+            <span>Total:</span>
+            <span>${total}</span>
+          </div>
+        </div>
       </div>
-      <div className="mb-4">
-        <label className="block mb-2 text-xl">Comment</label>
-        <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
-        ></textarea>
-      </div>
-      {error && <p className="text-red-500">{error}</p>}
+
       <button
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={handleSubmit}
+        onClick={handlePlaceOrder}
+        className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
       >
         Place Order
       </button>

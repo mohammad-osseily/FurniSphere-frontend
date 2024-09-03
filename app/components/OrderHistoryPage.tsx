@@ -1,5 +1,5 @@
 // app/profile/OrderHistoryPage.tsx
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { getOrderHistory } from "../services/orderServices";
 

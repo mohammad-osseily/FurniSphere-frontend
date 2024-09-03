@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { fetchCategoriesWithProducts } from "../services/productService";
 import { Category } from "@/types";
-import ProductModal from "../components/ProductModal"; 
-import { addToCart } from "../services/orderServices"; 
+import ProductModal from "../components/ProductModal";
+import { addToCart } from "../services/orderServices";
 
 const ProductsPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null); 
+  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,7 +28,12 @@ const ProductsPage = () => {
     loadCategories();
   }, []);
 
-  const handleAddToCart = async (product: { id: number; name: string; price: number; image: string; }) => {
+  const handleAddToCart = async (product: {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+  }) => {
     try {
       await addToCart(product.id, 1); // Add to cart with quantity 1
       alert(`${product.name} added to cart successfully!`);
@@ -67,7 +72,7 @@ const ProductsPage = () => {
                 <div
                   key={product.id}
                   className="relative p-4 bg-white shadow rounded-xl cursor-pointer h-80"
-                  onClick={() => openModal(product)} 
+                  onClick={() => openModal(product)}
                   style={{
                     backgroundImage: `url(${product.image})`,
                     backgroundSize: "cover",
@@ -81,7 +86,7 @@ const ProductsPage = () => {
                       <button
                         className="pr-1"
                         onClick={(e) => {
-                          e.stopPropagation(); 
+                          e.stopPropagation();
                           handleAddToCart(product);
                         }}
                       >

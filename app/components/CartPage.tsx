@@ -1,8 +1,11 @@
 // app/components/CartPage.tsx
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCartProducts, removeProductFromCart } from "../services/orderServices";
+import {
+  getCartProducts,
+  removeProductFromCart,
+} from "../services/orderServices";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -21,10 +24,10 @@ const CartPage = () => {
     fetchCartItems();
   }, []);
 
-  const handleRemoveFromCart = async (id : any) => {
+  const handleRemoveFromCart = async (id: any) => {
     try {
       await removeProductFromCart(id);
-      setCartItems(cartItems.filter((item :any) => item.id !== id));
+      setCartItems(cartItems.filter((item: any) => item.id !== id));
     } catch (error) {
       console.error("Failed to remove item from cart:", error);
     }

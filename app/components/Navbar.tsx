@@ -1,11 +1,10 @@
-// app/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUserFromLocalStorage, logoutUser } from "../services/authServices";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 
 interface User {
   id: string;
@@ -42,18 +41,30 @@ const Navbar: React.FC = () => {
     <nav className="bg-white shadow-md w-full">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div>
-          <Link href="/" className="text-xl font-bold cursor-pointer">
+          <Link
+            href="/"
+            className="text-2xl font-bold text-gray-800 hover:text-primary transition duration-300"
+          >
             FurniSphere
           </Link>
         </div>
-        <div className="flex space-x-4">
-          <Link href="/products" className="text-gray-700 hover:underline">
+        <div className="hidden md:flex space-x-6">
+          <Link
+            href="/products"
+            className="text-gray-700 hover:text-primary transition duration-300"
+          >
             Products
           </Link>
-          <Link href="/contact" className="text-gray-700 hover:underline">
+          <Link
+            href="/contact"
+            className="text-gray-700 hover:text-primary transition duration-300"
+          >
             Contact Us
           </Link>
-          <Link href="/about" className="text-gray-700 hover:underline">
+          <Link
+            href="/about"
+            className="text-gray-700 hover:text-primary transition duration-300"
+          >
             About Us
           </Link>
         </div>
@@ -63,26 +74,34 @@ const Navbar: React.FC = () => {
           ) : user ? (
             <>
               <Link href="/cart" className="relative">
-                <FaShoppingCart className="text-2xl text-gray-700" />
+                <FaShoppingCart className="text-2xl text-gray-700 hover:text-primary transition duration-300" />
                 {cartItemCount > 0 && (
                   <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                     {cartItemCount}
                   </span>
                 )}
               </Link>
-              <div className="dropdown dropdown-hover">
-                <label tabIndex={0} className="text-gray-700 cursor-pointer">
-                  Profile
-                </label>
+              <div className="dropdown dropdown-bottom">
+                <div
+                  tabIndex={0}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <FaUserCircle className="text-2xl text-gray-700 hover:text-primary transition duration-300" />
+                </div>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                  className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow absolute right-0 mt-2"
                 >
                   <li>
                     <Link href="/profile">Profile</Link>
                   </li>
                   <li>
-                    <button onClick={handleLogout}>Logout</button>
+                    <Link href="/order-history">Order History</Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout} className="text-left w-full">
+                      Logout
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -91,19 +110,41 @@ const Navbar: React.FC = () => {
             <>
               <Link
                 href="/login"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition duration-300"
               >
                 Login
               </Link>
               <Link
                 href="/register"
-                className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-700 hover:text-white"
+                className="px-4 py-2 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300"
               >
                 Register
               </Link>
             </>
           )}
         </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className="flex md:hidden justify-around items-center bg-white shadow-md py-2">
+        <Link
+          href="/products"
+          className="text-gray-700 hover:text-primary transition duration-300"
+        >
+          Products
+        </Link>
+        <Link
+          href="/contact"
+          className="text-gray-700 hover:text-primary transition duration-300"
+        >
+          Contact Us
+        </Link>
+        <Link
+          href="/about"
+          className="text-gray-700 hover:text-primary transition duration-300"
+        >
+          About Us
+        </Link>
       </div>
     </nav>
   );
