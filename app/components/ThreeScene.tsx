@@ -89,6 +89,14 @@ const ThreeScene = () => {
     pointLight.position.set(10, 10, 10);
     scene.add(pointLight);
 
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
 
 };
 
