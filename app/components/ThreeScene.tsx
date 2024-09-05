@@ -81,6 +81,14 @@ const ThreeScene = () => {
       scene.add(newTable);
     });
 
+    // Lighting setup
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 0.5);
+    pointLight.position.set(10, 10, 10);
+    scene.add(pointLight);
+
 
 };
 
