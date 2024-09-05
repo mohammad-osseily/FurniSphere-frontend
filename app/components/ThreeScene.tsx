@@ -97,7 +97,16 @@ const ThreeScene = () => {
     };
     animate();
 
+    // Clean up on unmount
+    return () => {
+      if (mountRef.current) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      scene.clear();
+    };
+  }, []);
 
+  return <div ref={mountRef} style={{ height: '100vh' }} />;
 };
 
 export default ThreeScene;
