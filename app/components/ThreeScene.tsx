@@ -16,6 +16,13 @@ const ThreeScene = () => {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 10, 20);
 
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    if (mountRef.current) {
+      mountRef.current.appendChild(renderer.domElement);
+    }
+
 };
 
 export default ThreeScene;
