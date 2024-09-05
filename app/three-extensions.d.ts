@@ -141,3 +141,18 @@ declare module 'three/examples/jsm/loaders/FBXLoader' {
   }
 }
 
+// ColladaLoader for .dae
+declare module 'three/examples/jsm/loaders/ColladaLoader' {
+  import { Loader, Object3D } from 'three';
+
+  export class ColladaLoader extends Loader {
+    load(
+      url: string,
+      onLoad: (collada: { scene: Object3D }) => void,
+      onProgress?: (event: ProgressEvent) => void,
+      onError?: (event: ErrorEvent) => void
+    ): void;
+    parse(data: ArrayBuffer | string): Object3D;
+  }
+}
+
