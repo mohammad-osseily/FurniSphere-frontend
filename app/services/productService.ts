@@ -1,7 +1,7 @@
 // app/services/productService.ts
 
 import axios from "axios";
-import { Category } from "@/types";
+import { Category, Product3D } from "@/types";
 
 const API_URL = "http://127.0.0.1:8000/api"; // Adjust to your backend URL
 
@@ -18,3 +18,12 @@ export const fetchCategoriesWithProducts = async (): Promise<Category[]> => {
     throw error;
   }
 };
+export const fetchProductsWith3DModels = async (): Promise<Product3D[]> => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/products/3d`);
+    return response.data.products;
+  } catch (error) {
+    console.error('Failed to fetch 3D products:', error);
+    throw error;
+  }
+}
