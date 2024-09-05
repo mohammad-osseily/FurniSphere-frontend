@@ -23,6 +23,13 @@ const ThreeScene = () => {
       mountRef.current.appendChild(renderer.domElement);
     }
 
+    // OrbitControls setup
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.enableZoom = true;
+
+
 };
 
 export default ThreeScene;
