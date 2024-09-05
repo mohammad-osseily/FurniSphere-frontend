@@ -96,3 +96,18 @@ declare module 'three/examples/jsm/loaders/OBJLoader' {
     parse(data: ArrayBuffer | string): Object3D;
   }
 }
+// GLTFLoader for .gltf/.glb
+declare module 'three/examples/jsm/loaders/GLTFLoader' {
+  import { Loader, Object3D } from 'three';
+
+  export class GLTFLoader extends Loader {
+    load(
+      url: string,
+      onLoad: (gltf: { scene: Object3D }) => void,
+      onProgress?: (event: ProgressEvent) => void,
+      onError?: (event: ErrorEvent) => void
+    ): void;
+    parse(data: ArrayBuffer | string, path: string): Object3D;
+  }
+}
+
