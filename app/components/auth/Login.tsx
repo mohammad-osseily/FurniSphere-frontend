@@ -2,12 +2,14 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useRouter } from "next/navigation";
 import { loginUser } from "../../services/authServices";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import Link from "next/link";
 import { BsPerson, BsLock } from "react-icons/bs";
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 interface LoginFormInputs {
   email: string;
@@ -55,9 +57,9 @@ const Login: React.FC = () => {
               type="email"
               placeholder="Email"
               {...register("email", { required: "Email is required" })}
-              className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
+              className="w-full h-12 bg-accent pl-9 border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
             />
-            <BsPerson className="absolute right-4 top-[55%] transform -translate-y-1/2 text-xl text-black" />
+            <PersonOutlinedIcon className="absolute  left-3 top-[55%] transform -translate-y-1/2 text-lg text-black" />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
@@ -68,9 +70,9 @@ const Login: React.FC = () => {
               type="password"
               placeholder="Enter your password"
               {...register("password", { required: "Password is required" })}
-              className="w-full h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
+              className="w-full pl-9 h-12 bg-accent border border-primary border-opacity-20 rounded-xl px-6 text-black placeholder-neutral outline-none"
             />
-            <BsLock className="absolute right-4 top-[55%] transform-translate-y-1/2 text-xl text-black" />
+            <LockOutlinedIcon className="absolute left-3 top-[53%] transform-translate-y-1/2 text-lg text-black" />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
