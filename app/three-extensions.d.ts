@@ -125,3 +125,19 @@ declare module 'three/examples/jsm/loaders/OBJLoader' {
     parse(data: ArrayBuffer | string): Object3D;
   }
 }
+
+// FBXLoader for .fbx
+declare module 'three/examples/jsm/loaders/FBXLoader' {
+  import { Loader, Object3D } from 'three';
+
+  export class FBXLoader extends Loader {
+    load(
+      url: string,
+      onLoad: (object: Object3D) => void,
+      onProgress?: (event: ProgressEvent) => void,
+      onError?: (event: ErrorEvent) => void
+    ): void;
+    parse(data: ArrayBuffer | string): Object3D;
+  }
+}
+
