@@ -57,6 +57,31 @@ const ThreeScene = () => {
     wall4.rotation.y = Math.PI / 2;
     scene.add(wall4);
 
+    // Add a static table model
+    const tableGeometry = new THREE.BoxGeometry(4, 0.5, 2);
+    const legGeometry = new THREE.CylinderGeometry(0.1, 0.1, 3);
+    const tableMaterial = new THREE.MeshBasicMaterial({ color: 0x8b4513 });
+
+    const table = new THREE.Mesh(tableGeometry, tableMaterial);
+    table.position.set(-8, 1.5, -6); // Move table in front of the chair
+    scene.add(table);
+
+    const loader = new OBJLoader();
+    loader.load('/models/chair.obj', (obj) => {
+      const chair = obj;
+      chair.position.set(-8, 0, -8); // Move chair to the top corner
+      chair.scale.set(1, 1, 1); // Adjust scale if necessary
+      scene.add(chair);
+    });
+    const newTableLoader = new OBJLoader(); // Use OBJLoader or GLTFLoader depending on the format
+    newTableLoader.load('/models/table.obj', (obj) => {
+      const newTable = obj;
+      newTable.position.set(2, 0, -5); // Adjust position inside the room
+      newTable.scale.set(1, 1, 1); // Adjust scale if necessary
+      scene.add(newTable);
+    });
+
+
 };
 
 export default ThreeScene;
