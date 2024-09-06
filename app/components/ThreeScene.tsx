@@ -74,7 +74,19 @@ const ThreeScene = () => {
       });
     };
 
+    // Load multiple GLB models with positions and scales
+    const models = [
+      { name: 'Armchair', url: '/models/Armchair.glb', position: [-8, 0, -8], scale: [3, 3, 3] },
+      { name: 'Desk', url: '/models/desk.glb', position: [2, 0, -5], scale: [3, 3, 3] },
+      { name: 'Sofa', url: '/models/sofa.glb', position: [4, 0, 6], scale: [3, 3, 3] },
+      { name: 'Small Object', url: '/models/so.glb', position: [-4, 0, -2], scale: [3, 3, 3] },
+      { name: 'Modern Chair', url: '/models/Modern Chair of mine1.glb', position: [6, 0, -4], scale: [3, 3, 3] },
+      { name: 'Table', url: '/models/table1.glb', position: [0, 0, 0], scale: [3, 3, 3] },
+    ];
 
+    models.forEach(({ name, url, position, scale }) => {
+      loadModel(name, url, position, scale);
+    });
 
     // Lighting setup
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
