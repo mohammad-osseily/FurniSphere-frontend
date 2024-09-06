@@ -138,7 +138,37 @@ const ThreeScene = () => {
     object.position.y = 0;
   };
 
+  const handleChatSubmit = async () => {
+    try {
+      // Build the prompt with context
+      const chatPrompt = `You are managing a 3D scene. When the user asks to move an object "up", "down", "left", or "right", they mean to change the position of the object in the 3D space. The Y-axis should always stay at 0, and movements should affect the X and Z coordinates. The current objects in the scene are: Armchair, Desk, Sofa, Small Object, Modern Chair, Table. Please respond with only instructions or coordinates relevant to moving the objects. The user asked: ${chatInput}`;
 
+      const response = await axios.post('http://localhost:8000/api/chat', { message: chatPrompt });
+      setChatResponse(response.data.response);
+
+      // Parse ChatGPT response to identify the object and direction
+      const objectMatch = response.data.response.match(/(Armchair|Desk|Sofa|Small Object|Modern Chair|Table)/i);
+      const directionMatch = response.data.response.match(/(up|down|left|right)/i);
+      const positionMatch = response.data.response.match(/position\s*=\s*\[\s*(-?\d+),\s*(-?\d+),\s*(-?\d+)\s*]/);
+
+      if (objectMatch) {
+        const objectName = objectMatch[1];
+        const objectToMove = modelObjects.find(obj => obj.name.toLowerCase() === objectName.toLowerCase());
+
+        if (objectToMove) {
+          if (positionMatch) {
+            const newPosition = positionMatch.slice(1, 4).map(Number);
+            objectToMove.model.position.set(newPosition[0], 0, newPosition[2]); // Set X and Z, Y to 0
+          } else if (directionMatch) {
+            const direction = directionMatch[1];
+            parseMovement(objectToMove.model, direction); // Move object in the specified direction
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting chat:', error);
+    }
+};
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
