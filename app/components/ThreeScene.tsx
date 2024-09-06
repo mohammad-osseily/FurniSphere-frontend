@@ -113,6 +113,31 @@ const ThreeScene = () => {
     };
   }, []);
 
+  // Function to interpret natural language inputs and move objects along the X or Z axis
+  const parseMovement = (object: any, direction: string) => {
+    const movementUnit = 1; // Default movement unit
+
+    switch (direction.toLowerCase()) {
+      case 'up': // Move along the Z-axis (forward/backward)
+        object.position.z -= movementUnit;
+        break;
+      case 'down': // Move along the Z-axis (forward/backward)
+        object.position.z += movementUnit;
+        break;
+      case 'left': // Move along the X-axis (left/right)
+        object.position.x -= movementUnit;
+        break;
+      case 'right': // Move along the X-axis (left/right)
+        object.position.x += movementUnit;
+        break;
+      default:
+        console.error('Unknown direction:', direction);
+    }
+
+    // Ensure the Y-axis (vertical height) remains unchanged
+    object.position.y = 0;
+  };
+
 
 
 export default ThreeScene;
