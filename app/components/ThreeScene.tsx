@@ -140,4 +140,31 @@ const ThreeScene = () => {
 
 
 
+  return (
+    <div style={{ display: 'flex', height: '100vh' }}>
+      {/* 3D Scene */}
+      <div ref={mountRef} style={{ flex: 1 }} />
+
+      {/* Chat box on the right */}
+      <div style={{ width: '300px', padding: '20px', backgroundColor: 'lightgray' }}>
+        <h3>Chat with AI</h3>
+        <input
+          type="text"
+          value={chatInput}
+          onChange={(e) => setChatInput(e.target.value)}
+          placeholder="Ask ChatGPT to move objects"
+          style={{ width: '100%', padding: '10px', fontSize: '16px', marginBottom: '10px' }}
+        />
+        <button onClick={handleChatSubmit} style={{ width: '100%', padding: '10px', fontSize: '16px' }}>
+          Submit
+        </button>
+        <div style={{ marginTop: '20px' }}>
+          <h4>ChatGPT Response:</h4>
+          <p>{chatResponse}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default ThreeScene;
