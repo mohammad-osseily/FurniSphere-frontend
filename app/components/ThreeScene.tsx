@@ -161,7 +161,42 @@ const ThreeScene = () => {
     object.position.y = 0;
   };
 
+  const handleChatSubmit = async (input: string) => {
+    const currentInput = input || chatInput;
+    if (!currentInput.trim()) {
+      return;
+    }
 
+    const chatPrompt = `You are controlling a 3D scene with objects like Armchair, Desk, Sofa, etc. 
+    Your job is to interpret the user's commands to move these objects in 3D space. 
+    The user asked: "${currentInput}".`;
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/chat', { message: chatPrompt });
+      const aiResponse = response.data.response;
+
+      setChatResponse(aiResponse);
+      setInteractionLog((prev) => [...prev, `You: ${currentInput}`, `AI: ${aiResponse}`]);
+
+      const objectMatch = aiResponse.match(/(Armchair|Desk|Sofa|Small Object|Modern Chair|Table)/i);
+      const directionMatch = aiResponse.match(/(up|down|left|right)/i);
+
+      if (objectMatch && directionMatch) {
+        const objectName = objectMatch[1];
+        const direction = directionMatch[1];
+        const objectToMove = modelObjects.find((obj) => obj.name.toLowerCase() === objectName.toLowerCase());
+
+        if (objectToMove) {
+          parseMovement(objectToMove.model, direction);
+        }
+      }
+
+      setChatInput(''); // Clear input after submission
+    } catch (error) {
+      console.error('Error submitting chat:', error);
+      setChatResponse('Error communicating with the server.');
+    }
+  };
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
