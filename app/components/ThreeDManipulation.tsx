@@ -42,5 +42,11 @@ export default function ThreeDManipulation() {
       mountRef.current.appendChild(newRenderer.domElement)
     }
 
+    const newControls = new OrbitControls(newCamera, newRenderer.domElement)
+    newControls.enableDamping = true
+    newControls.dampingFactor = 0.25
+    newControls.enableZoom = true
+
+
   )
 }
