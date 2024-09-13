@@ -41,6 +41,22 @@ const Add3DProduct = () => {
     }
   };
 
+  return (
+    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 500, margin: 'auto', mt: 4 }}>
+      <Typography variant="h6" gutterBottom>
+        Add 3D Product
+      </Typography>
+
+      {/* Product ID */}
+      <TextField
+        fullWidth
+        label="Product ID"
+        value={productId}
+        onChange={(e) => setProductId(e.target.value)}
+        margin="normal"
+        required
+      />
+
 
 };
 
