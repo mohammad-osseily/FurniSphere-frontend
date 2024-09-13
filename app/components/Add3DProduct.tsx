@@ -123,7 +123,53 @@ const Add3DProduct = () => {
         />
       </Box>
 
+      {/* Rotation */}
+      <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+        <TextField
+          fullWidth
+          label="Rotation X"
+          type="number"
+          value={rotation.x}
+          onChange={(e) => setRotation({ ...rotation, x: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Rotation Y"
+          type="number"
+          value={rotation.y}
+          onChange={(e) => setRotation({ ...rotation, y: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Rotation Z"
+          type="number"
+          value={rotation.z}
+          onChange={(e) => setRotation({ ...rotation, z: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+      </Box>
 
+      <Button
+        type="submit"
+        variant="contained"
+        className='bg-primary'
+        color="primary"
+        fullWidth
+        disabled={isLoading}
+        sx={{ mt: 3 }}
+      >
+        {isLoading ? <CircularProgress size={24} /> : 'Add 3D Product'}
+      </Button>
+
+      {message && (
+        <Typography color={message.includes('Error') ? 'error' : 'success'} sx={{ mt: 2 }}>
+          {message}
+        </Typography>
+      )}
+    </Box>
+  );
 };
 
 export default Add3DProduct;
