@@ -28,5 +28,10 @@ export default function ThreeDManipulation() {
 
   const router = useRouter()
 
+  const initializeScene = () => {
+    const newScene = new THREE.Scene()
+    newScene.background = new THREE.Color('white')
+
+
   )
 }
