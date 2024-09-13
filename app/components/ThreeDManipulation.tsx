@@ -53,6 +53,17 @@ export default function ThreeDManipulation() {
     floor.rotation.x = -Math.PI / 2
     newScene.add(floor)
 
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+    newScene.add(ambientLight)
+
+    const pointLight = new THREE.PointLight(0xffffff, 0.5)
+    pointLight.position.set(10, 10, 10)
+    newScene.add(pointLight)
+
+    setScene(newScene)
+    setCamera(newCamera)
+    setRenderer(newRenderer)
+    setControls(newControls)
 
   )
 }
