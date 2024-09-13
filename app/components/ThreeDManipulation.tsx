@@ -16,5 +16,17 @@ type ModelObject = {
   scale: [number, number, number]
 }
 
+export default function ThreeDManipulation() {
+  const mountRef = useRef<HTMLDivElement>(null)
+  const [modelObjects, setModelObjects] = useState<ModelObject[]>([])
+  const [selectedObject, setSelectedObject] = useState<string | null>(null)
+  const [tempPosition, setTempPosition] = useState({ x: 0, y: 0, z: 0 })
+  const [scene, setScene] = useState<THREE.Scene | null>(null)
+  const [camera, setCamera] = useState<THREE.PerspectiveCamera | null>(null)
+  const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null)
+  const [controls, setControls] = useState<OrbitControls | null>(null)
+
+  const router = useRouter()
+
   )
 }
