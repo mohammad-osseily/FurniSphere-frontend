@@ -57,6 +57,10 @@ const OrderManagement = () => {
     fetchOrders();
   }, [currentPage]);
 
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+  };
+
 };
 
 export default OrderManagement;
