@@ -103,3 +103,28 @@ export const getOrderHistory = async () => {
   });
   return response.data;
 };
+// Fetch all orders
+export const getAllOrders = async () => {
+  const token = getTokenFromLocalStorage();
+  const response = await axios.get(`${API_URL}/orders`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const updateOrderStatus = async (orderId: number, status: string) => {
+  const token = getTokenFromLocalStorage();
+  const response = await axios.post(
+    `${API_URL}/orders/${orderId}/update`,
+    { status },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
