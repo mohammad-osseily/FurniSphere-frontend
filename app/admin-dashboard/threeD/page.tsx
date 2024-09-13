@@ -37,6 +37,21 @@ export default function ThreeDPage() {
   return (
     <div className="flex h-screen">
       <AdminSidebar />
+      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+        <div className="container mx-auto px-6 py-8">
+          <h3 className="text-gray-700 text-3xl font-medium mb-4">3D Product Management</h3>
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8" aria-label="3D product management tabs">
+              <button
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  tabValue === 0
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+                onClick={() => handleTabChange(0)}
+              >
+                Manipulate 3D Products
+              </button>
  
     </div>
   )
