@@ -62,7 +62,16 @@ export default function ThreeDPage() {
               >
                 Add 3D Product
               </button>
- 
+            </nav>
+          </div>
+          <TabPanel value={tabValue} index={0}>
+            <ThreeDManipulation />
+          </TabPanel>
+          <TabPanel value={tabValue} index={1}>
+            <Add3DProduct />
+          </TabPanel>
+        </div>
+      </main>
     </div>
   )
 }
