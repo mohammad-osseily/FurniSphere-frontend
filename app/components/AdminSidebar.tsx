@@ -93,6 +93,24 @@ export default function AdminSidebar() {
 
       
 
+      {/* Logout Button */}
+      <Box sx={{ p: 2 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          startIcon={<LogoutIcon />}
+          sx={{
+            backgroundColor: '#FF6347',
+            '&:hover': {
+              backgroundColor: '#ff4c33',
+            },
+          }}
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
+      </Box>
     </Box>
   )
 }
