@@ -237,7 +237,7 @@ const ThreeScene = () => {
             padding: '12px',
             fontSize: '16px',
             marginBottom: '15px',
-            backgroundColor: '#4CAF50',
+            backgroundColor: '#054C73',
             color: '#fff',
             borderRadius: '6px',
             border: 'none',
@@ -264,7 +264,7 @@ const ThreeScene = () => {
         >
           <div
             style={{
-              backgroundColor: isRecording ? '#FF5722' : '#2196F3',
+              backgroundColor: isRecording ? '#FF5722' : '#054C73',
               borderRadius: '50%',
               height: '60px',
               width: '60px',
