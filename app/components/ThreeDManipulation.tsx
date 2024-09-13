@@ -152,5 +152,10 @@ export default function ThreeDManipulation() {
     }
   }
 
+  const handleTempPositionChange = (axis: 'x' | 'y' | 'z', value: number) => {
+    setTempPosition((prev) => ({ ...prev, [axis]: value }))
+  }
+
+
   )
 }
