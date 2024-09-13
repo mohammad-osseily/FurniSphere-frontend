@@ -38,6 +38,16 @@ export default function AdminSidebar() {
         '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' },
       }}
     >
+      {/* Logo */}
+      <Box sx={{ pt: 2 ,textAlign: 'center', margin: "0 auto "}} >
+        <Image
+          src="/static/images/logo2.png"
+          alt="Logo"
+          width={100}
+          height={60}
+        />
+      </Box>
+
     
     </Box>
   )
