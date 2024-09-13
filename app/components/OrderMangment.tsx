@@ -18,6 +18,25 @@ const OrderManagement = () => {
   const [status, setStatus] = useState('pending');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const statuses = ['pending', 'processing', 'shipped', 'delivered', 'canceled'];
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return <PendingIcon sx={{ mr: 1 }} />;
+      case 'processing':
+        return <HourglassTopIcon sx={{ mr: 1 }} />; // New icon for processing status
+      case 'shipped':
+        return <LocalShippingIcon sx={{ mr: 1 }} />;
+      case 'delivered':
+        return <CheckCircleIcon sx={{ mr: 1 }} color="success" />;
+      case 'canceled':
+        return <CancelIcon sx={{ mr: 1 }} color="error" />;
+      default:
+        return null;
+    }
+  };
+
 
 };
 
