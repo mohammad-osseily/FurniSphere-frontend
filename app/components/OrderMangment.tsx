@@ -61,6 +61,13 @@ const OrderManagement = () => {
     setCurrentPage(page);
   };
 
+  const handleUpdateClick = (order: any) => {
+    setSelectedOrder(order);
+    setStatus(order.status);
+    setIsModalOpen(true);
+  };
+
+
 };
 
 export default OrderManagement;
