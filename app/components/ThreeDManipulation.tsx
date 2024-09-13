@@ -93,5 +93,26 @@ export default function ThreeDManipulation() {
     }
   }
 
+  const loadModel = (id: number, name: string, url: string, position: [number, number, number], scale: [number, number, number], newScene: THREE.Scene): Promise<ModelObject | null> => {
+    return new Promise((resolve) => {
+      const gltfLoader = new GLTFLoader()
+      gltfLoader.load(
+        url,
+        (gltf) => {
+          const model = gltf.scene
+          model.position.set(position[0], position[1], position[2])
+          model.scale.set(scale[0], scale[1], scale[2])
+          newScene.add(model)
+          resolve({ id, name, model, position, scale })
+        },
+        undefined,
+        (error) => {
+          console.error(`Error loading model: ${url}`, error)
+          resolve(null)
+        }
+      )
+    })
+  }
+
   )
 }
