@@ -52,6 +52,16 @@ export default function ThreeDPage() {
               >
                 Manipulate 3D Products
               </button>
+              <button
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  tabValue === 1
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+                onClick={() => handleTabChange(1)}
+              >
+                Add 3D Product
+              </button>
  
     </div>
   )
