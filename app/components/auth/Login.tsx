@@ -26,7 +26,7 @@ const Login: React.FC = () => {
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      await loginUser(data.email, data.password);
+      const user = await loginUser(data.email, data.password); // Get user info, including role
 
       Swal.fire({
         title: "Success!",
@@ -34,7 +34,12 @@ const Login: React.FC = () => {
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
-        router.push("/");
+        // Check the user role and redirect accordingly
+        if (user.role === "admin") {
+          router.push("/admin-dashboard"); // Redirect to admin dashboard if user is admin
+        } else {
+          router.push("/"); // Redirect to homepage for regular users
+        }
       });
     } catch (err) {
       Swal.fire({
