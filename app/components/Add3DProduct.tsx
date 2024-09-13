@@ -67,6 +67,34 @@ const Add3DProduct = () => {
         required
       />
 
+      {/* Position */}
+      <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+        <TextField
+          fullWidth
+          label="Position X"
+          type="number"
+          value={position.x}
+          onChange={(e) => setPosition({ ...position, x: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Position Y"
+          type="number"
+          value={position.y}
+          onChange={(e) => setPosition({ ...position, y: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Position Z"
+          type="number"
+          value={position.z}
+          onChange={(e) => setPosition({ ...position, z: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+      </Box>
+
 
 };
 
