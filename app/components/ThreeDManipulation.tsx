@@ -180,6 +180,94 @@ export default function ThreeDManipulation() {
     }
   }
 
-
+  return (
+    <div className="flex h-screen">
+      <div ref={mountRef} className="w-[70%] h-full" />
+      <div className="w-[30%] p-4 bg-gray-100 overflow-y-auto">
+        <Typography variant="h6" gutterBottom>
+          Object Manipulation
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {modelObjects.map((obj) => (
+            <Button
+            className={selectedObject === obj.name ? 'bg-primary' : 'text-primary border-primary'}
+              key={obj.id}
+              variant={selectedObject === obj.name ? 'contained' : 'outlined'}
+              onClick={() => handleObjectSelect(obj.name)}
+              size="small"
+            >
+              {obj.name}
+            </Button>
+          ))}
+        </Box>
+        {selectedObject && (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              {selectedObject}
+            </Typography>
+            <Box sx={{ mb: 2 }}>
+              <Typography gutterBottom>X Position: {tempPosition.x.toFixed(2)}</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Slider
+                className='text-primary'
+                  value={tempPosition.x}
+                  onChange={(_, value) => handleTempPositionChange('x', value as number)}
+                  min={-8}
+                  max={8}
+                  step={0.1}
+                  sx={{ flexGrow: 1, mr: 2 }}
+                />
+                <Typography variant="body2" sx={{ minWidth: '40px', textAlign: 'right' }}>
+                  {tempPosition.x.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <Typography gutterBottom>Y Position: {tempPosition.y.toFixed(2)}</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Slider
+                className='text-primary'
+                  value={tempPosition.y}
+                  onChange={(_, value) => handleTempPositionChange('y', value as number)}
+                  min={-8}
+                  max={8}
+                  step={0.1}
+                  sx={{ flexGrow: 1, mr: 2 }}
+                />
+                <Typography variant="body2" sx={{ minWidth: '40px', textAlign: 'right' }}>
+                  {tempPosition.y.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <Typography gutterBottom>Z Position: {tempPosition.z.toFixed(2)}</Typography>
+              <Box   sx={{ display: 'flex', alignItems: 'center',  }}>
+                <Slider
+                className='text-primary'
+                  value={tempPosition.z}
+                  onChange={(_, value) => handleTempPositionChange('z', value as number)}
+                  min={0}
+                  max={10}
+                  step={0.1}
+                  sx={{ flexGrow: 1, mr: 2 }}
+                />
+                <Typography variant="body2" sx={{ minWidth: '40px', textAlign: 'right' }}>
+                  {tempPosition.z.toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+            className='bg-primary'
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              fullWidth
+            >
+              Apply Changes
+            </Button>
+          </Box>
+        )}
+      </div>
+    </div>
   )
 }
