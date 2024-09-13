@@ -35,6 +35,12 @@ export default function ThreeDManipulation() {
     const newCamera = new THREE.PerspectiveCamera(75, window.innerWidth * 0.7 / window.innerHeight, 0.1, 1000)
     newCamera.position.set(0, 10, 20)
 
+    const newRenderer = new THREE.WebGLRenderer({ antialias: true })
+    newRenderer.setSize(window.innerWidth * 0.7, window.innerHeight)
+    if (mountRef.current) {
+      mountRef.current.innerHTML = ''
+      mountRef.current.appendChild(newRenderer.domElement)
+    }
 
   )
 }
