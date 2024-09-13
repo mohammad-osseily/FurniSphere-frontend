@@ -44,6 +44,13 @@ export default function ProductPage() {
         <AddProduct />
       </div>
 
-
+      {/* Overlay for mobile when sidebar is open */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-0 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+    </div>
   )
 }
