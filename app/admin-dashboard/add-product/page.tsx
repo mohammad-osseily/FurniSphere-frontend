@@ -39,5 +39,11 @@ export default function ProductPage() {
         <AdminSidebar />
       </div>
 
+      {/* Main Content */}
+      <div className="flex-1 ">
+        <AddProduct />
+      </div>
+
+
   )
 }
