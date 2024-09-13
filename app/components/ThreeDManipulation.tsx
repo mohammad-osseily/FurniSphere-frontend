@@ -47,6 +47,12 @@ export default function ThreeDManipulation() {
     newControls.dampingFactor = 0.25
     newControls.enableZoom = true
 
+    const floorGeometry = new THREE.PlaneGeometry(20, 20)
+    const floorMaterial = new THREE.MeshBasicMaterial({ color: 'gray', side: THREE.DoubleSide })
+    const floor = new THREE.Mesh(floorGeometry, floorMaterial)
+    floor.rotation.x = -Math.PI / 2
+    newScene.add(floor)
+
 
   )
 }
