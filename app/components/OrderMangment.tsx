@@ -82,7 +82,149 @@ const OrderManagement = () => {
     return <CircularProgress />;
   }
 
+  return (
+    <>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>User ID</TableCell>
+              <TableCell>Total Amount</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>City</TableCell>
+              <TableCell>Comment</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.length > 0 ? (
+              orders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell>{order.id}</TableCell>
+                  <TableCell>{order.user_id}</TableCell>
+                  <TableCell>{order.total_amount}</TableCell>
+                  <TableCell>
+                    {getStatusIcon(order.status)}
+                    {order.status}
+                  </TableCell>
+                  <TableCell>{order.address_line}</TableCell>
+                  <TableCell>{order.city}</TableCell>
+                  <TableCell>{order.comment}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      className="bg-primary text-white"
+                      onClick={() => handleUpdateClick(order)}
+                      startIcon={<EditIcon />}
+                    >
+                      Update
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={8} align="center">
+                  No orders available
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        onChange={handlePageChange}
+        sx={{
+          '& .Mui-selected': {
+            backgroundColor: '#054C73',
+            color: '#fff',
+          },
+        }}
+        style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
+      />
+
+      {/* Modal for Updating Order */}
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 300,
+          sx: { backgroundColor: 'transparent' },
+        }}
+      >
+        <Slide direction="up" in={isModalOpen} mountOnEnter unmountOnExit>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100vh',
+            }}
+          >
+            <Box
+              sx={{
+                width: 400,
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                borderRadius: 2,
+                p: 4,
+                transition: 'all 0.3s ease-in-out',
+              }}
+            >
+              <Typography variant="h6" mb={2}>
+                Update Order Status
+              </Typography>
+              <TextField
+                select
+                label="Status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                fullWidth
+                variant="outlined"
+                sx={{
+                  '& .MuiMenuItem-root': {
+                    fontWeight: 500,
+                  },
+                }}
+              >
+                {statuses.map((s) => (
+                  <MenuItem
+                    key={s}
+                    value={s}
+                    sx={{
+                      color: s === 'canceled' ? 'red' : 'black',
+                      '&:hover': {
+                        backgroundColor: '#f0f0f0',
+                      },
+                    }}
+                  >
+                    {getStatusIcon(s)}
+                    {s.charAt(0).toUpperCase() + s.slice(1)}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <Button
+                variant="contained"
+                className='bg-primary'
+                onClick={handleUpdateStatus}
+                style={{ marginTop: '20px' }}
+                fullWidth
+              >
+                Update Status
+              </Button>
+            </Box>
+          </Box>
+        </Slide>
+      </Modal>
+    </>
+  );
 };
 
 export default OrderManagement;
