@@ -114,5 +114,32 @@ export default function ThreeDManipulation() {
     })
   }
 
+  useEffect(() => {
+    const { newScene, newCamera, newRenderer, newControls } = initializeScene()
+
+    const animate = () => {
+      requestAnimationFrame(animate)
+      newControls.update()
+      newRenderer.render(newScene, newCamera)
+    }
+    animate()
+
+    const handleResize = () => {
+      newCamera.aspect = window.innerWidth * 0.7 / window.innerHeight
+      newCamera.updateProjectionMatrix()
+      newRenderer.setSize(window.innerWidth * 0.7, window.innerHeight)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    loadModels(newScene)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      newScene.clear()
+    }
+  }, [])
+
+
   )
 }
