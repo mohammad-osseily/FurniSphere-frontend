@@ -13,6 +13,20 @@ const Add3DProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
+    const formData = {
+      product_id: productId,
+      model_file_path: modelFilePath,
+      position,
+      scale,
+      rotation,
+    };
+
+
 };
 
 export default Add3DProduct;
