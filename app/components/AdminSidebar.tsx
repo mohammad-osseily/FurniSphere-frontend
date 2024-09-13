@@ -48,7 +48,51 @@ export default function AdminSidebar() {
         />
       </Box>
 
-    
+      
+
+      {/* Menu Items */}
+      <Box sx={{ flexGrow: 1, overflow: 'auto' , pt:2}}>
+        <List>
+          <Link href="/admin-dashboard" passHref legacyBehavior>
+            <ListItem  component="a">
+              <ListItemIcon sx={{ color: 'white' }}>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="User Management" />
+            </ListItem>
+          </Link>
+
+          <Link href="/admin-dashboard/add-product" passHref legacyBehavior>
+            <ListItem  component="a">
+              <ListItemIcon sx={{ color: 'white' }}>
+                <AddBoxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Add Products" />
+            </ListItem>
+          </Link>
+
+          <Link href="/admin-dashboard/orders" passHref legacyBehavior>
+            <ListItem  component="a">
+              <ListItemIcon sx={{ color: 'white' }}>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Order Management" />
+            </ListItem>
+          </Link>
+
+          <Link href="/admin-dashboard/threeD" passHref legacyBehavior>
+            <ListItem  component="a">
+              <ListItemIcon sx={{ color: 'white' }}>
+                <ThreeDRotationIcon />
+              </ListItemIcon>
+              <ListItemText primary="3D Manipulation" />
+            </ListItem>
+          </Link>
+        </List>
+      </Box>
+
+      
+
     </Box>
   )
 }
