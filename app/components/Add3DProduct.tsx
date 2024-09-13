@@ -95,6 +95,34 @@ const Add3DProduct = () => {
         />
       </Box>
 
+      {/* Scale */}
+      <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+        <TextField
+          fullWidth
+          label="Scale X"
+          type="number"
+          value={scale.x}
+          onChange={(e) => setScale({ ...scale, x: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Scale Y"
+          type="number"
+          value={scale.y}
+          onChange={(e) => setScale({ ...scale, y: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Scale Z"
+          type="number"
+          value={scale.z}
+          onChange={(e) => setScale({ ...scale, z: parseFloat(e.target.value) })}
+          margin="normal"
+        />
+      </Box>
+
 
 };
 
