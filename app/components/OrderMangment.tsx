@@ -67,6 +67,21 @@ const OrderManagement = () => {
     setIsModalOpen(true);
   };
 
+  const handleUpdateStatus = async () => {
+    try {
+      await updateOrderStatus(selectedOrder.id, status);
+      const data = await getAllOrders(currentPage);
+      setOrders(data.orders.data);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
 
 };
 
