@@ -32,6 +32,9 @@ export default function ThreeDManipulation() {
     const newScene = new THREE.Scene()
     newScene.background = new THREE.Color('white')
 
+    const newCamera = new THREE.PerspectiveCamera(75, window.innerWidth * 0.7 / window.innerHeight, 0.1, 1000)
+    newCamera.position.set(0, 10, 20)
+
 
   )
 }
