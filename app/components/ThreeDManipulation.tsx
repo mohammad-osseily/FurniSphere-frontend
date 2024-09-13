@@ -140,6 +140,17 @@ export default function ThreeDManipulation() {
     }
   }, [])
 
+  const handleObjectSelect = (name: string) => {
+    setSelectedObject(name)
+    const object = modelObjects.find((obj) => obj.name === name)
+    if (object) {
+      setTempPosition({
+        x: object.position[0],
+        y: object.position[2],
+        z: object.position[1]
+      })
+    }
+  }
 
   )
 }
