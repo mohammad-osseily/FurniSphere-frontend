@@ -156,6 +156,30 @@ export default function ThreeDManipulation() {
     setTempPosition((prev) => ({ ...prev, [axis]: value }))
   }
 
+  const handleSubmit = async () => {
+    const object = modelObjects.find((obj) => obj.name === selectedObject)
+    if (object && scene) {
+      object.model.position.set(tempPosition.x, tempPosition.z, tempPosition.y)
+      object.position = [tempPosition.x, tempPosition.z, tempPosition.y]
+
+      const position = {
+        x: tempPosition.x,
+        y: tempPosition.y,
+        z: tempPosition.z,
+      }
+
+      try {
+        await update3DProductPosition(object.id, position)
+        console.log('Position updated successfully')
+        router.refresh()
+      } catch (error) {
+        console.error('Error updating position:', error)
+      }
+
+      setModelObjects([...modelObjects])
+    }
+  }
+
 
   )
 }
