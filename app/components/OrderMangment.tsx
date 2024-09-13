@@ -37,6 +37,25 @@ const OrderManagement = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = await getAllOrders(currentPage);
+        if (data && data.orders && Array.isArray(data.orders.data)) {
+          setOrders(data.orders.data);
+          setTotalPages(data.orders.last_page);
+        } else {
+          setOrders([]);
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [currentPage]);
 
 };
 
