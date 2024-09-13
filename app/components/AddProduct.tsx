@@ -18,6 +18,42 @@ interface AddProductFormInputs {
   stock: number;
 }
 
+const AddProduct: React.FC = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddProductFormInputs>();
+
+  const onSubmit = async (data: AddProductFormInputs) => {
+    try {
+      // Call the service to create the product
+      await createProduct(data);
+
+      // Success toast
+      toast.success('Product created successfully!', {
+        position: 'top-right', // Fix the toast position
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+2
+    } catch (err) {
+      // Error toast
+      toast.error('Failed to create product. Please try again.', {
+        position: 'top-right', // Fix the toast position
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+
 
 };
 
