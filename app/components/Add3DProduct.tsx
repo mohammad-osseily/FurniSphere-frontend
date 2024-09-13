@@ -57,6 +57,16 @@ const Add3DProduct = () => {
         required
       />
 
+      {/* Model File Path */}
+      <TextField
+        fullWidth
+        label="Model File Path"
+        value={modelFilePath}
+        onChange={(e) => setModelFilePath(e.target.value)}
+        margin="normal"
+        required
+      />
+
 
 };
 
