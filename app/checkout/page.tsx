@@ -30,6 +30,17 @@ const CheckoutPage = () => {
     fetchCart();
   }, []);
 
+  // Calculate subtotal, taxes, delivery price, and total
+  const calculateSubTotal = () => {
+    if (!cart) return 0;
+    return cart.cart_products.reduce((sum, item) => sum + item.product.price * item.quantity, 0); // Assuming price is inside item.product
+  };
+
+  const roundedSubTotal = calculateSubTotal().toFixed(2);
+  const taxes = (calculateSubTotal() * 0.1).toFixed(2); // Assume a tax rate of 10%
+  const deliveryPrice = 10.00; // Fixed delivery price for simplicity
+  const total = (parseFloat(roundedSubTotal) + parseFloat(taxes) + deliveryPrice).toFixed(2);
+
   const handlePlaceOrder = async () => {
     if (!cart || cart.cart_products.length === 0) {
       Swal.fire("Error", "Your cart is empty", "error");
@@ -41,7 +52,7 @@ const CheckoutPage = () => {
       city: city,
       comment: comment,
       items: cart.cart_products.map((item: CartProduct) => ({
-        product_id: item.product_id,
+        product_id: item.product_id, // Assuming product_id is available directly on the item
         quantity: item.quantity,
       })),
     };
@@ -52,7 +63,7 @@ const CheckoutPage = () => {
       Swal.fire(
         "Success",
         "Your order has been placed successfully!",
-        "success",
+        "success"
       ).then(() => {
         if (typeof window !== "undefined") {
           router.push("/"); // Redirect to homepage or orders page after successful order
@@ -63,8 +74,6 @@ const CheckoutPage = () => {
       console.error("Failed to place order:", error);
     }
   };
-
-  
 
   return (
     <div className="container mx-auto py-10">
@@ -108,7 +117,7 @@ const CheckoutPage = () => {
           </div>
           <div className="flex justify-between">
             <span>Delivery Price:</span>
-            <span>${deliveryPrice}</span>
+            <span>${deliveryPrice.toFixed(2)}</span>
           </div>
           <hr />
           <div className="flex justify-between font-semibold">
@@ -120,7 +129,7 @@ const CheckoutPage = () => {
 
       <button
         onClick={handlePlaceOrder}
-        className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        className="w-full py-2 bg-primary text-white rounded-lg hover:opacity-90"
       >
         Place Order
       </button>
