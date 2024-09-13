@@ -15,11 +15,13 @@ export interface Product {
 }
 export interface Product3D {
   id: number;
+  name: string;
   product_id: number;
   model_file_path: string;
-  file_type: "gltf" | "obj" | "fbx";
-  created_at: string;
-  updated_at: string;
+  file_type: string;
+  position: { x: number; y: number; z: number };
+  scale: { x: number; y: number; z: number };
+  rotation: { x: number; y: number; z: number };
 }
 
 export type PaginatedProducts = Pagination<Product>;
