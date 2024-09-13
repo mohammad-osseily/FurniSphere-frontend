@@ -65,5 +65,33 @@ export default function ThreeDManipulation() {
     setRenderer(newRenderer)
     setControls(newControls)
 
+    return { newScene, newCamera, newRenderer, newControls }
+  }
+
+  const loadModels = async (newScene: THREE.Scene) => {
+    try {
+      const products3D = await fetchAll3DProducts()
+      const newModelObjects: ModelObject[] = []
+
+      for (const product of products3D) {
+        const model = await loadModel(
+          product.id,
+          product.model_file_path,
+          `/models/${product.model_file_path}.glb`,
+          [product.position.x, product.position.z, product.position.y],
+          [product.scale.x, product.scale.y, product.scale.z],
+          newScene
+        )
+        if (model) {
+          newModelObjects.push(model)
+        }
+      }
+
+      setModelObjects(newModelObjects)
+    } catch (error) {
+      console.error('Error fetching 3D models:', error)
+    }
+  }
+
   )
 }
