@@ -1,10 +1,13 @@
-// app/products/page.tsx
 "use client";
+
 import { useEffect, useState } from "react";
 import { fetchCategoriesWithProducts } from "../services/productService";
 import { Category } from "@/types";
 import ProductModal from "../components/ProductModal";
 import { addToCart } from "../services/orderServices";
+import { trackUserActivity } from "../services/userActivityService";
+import Recommendations from "../components/Recommendations";
+import { Toaster, toast } from "react-hot-toast";
 
 const ProductsPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -36,16 +39,22 @@ const ProductsPage = () => {
   }) => {
     try {
       await addToCart(product.id, 1); // Add to cart with quantity 1
-      alert(`${product.name} added to cart successfully!`);
+      toast.success(`Product added to cart successfully!`);
+
+      // Track 'add_to_cart' interaction
+      await trackUserActivity(product.id, "add_to_cart");
     } catch (error) {
       console.error("Failed to add to cart:", error);
-      alert("Failed to add product to cart.");
+      toast.error("Failed to add product to cart.");
     }
   };
 
-  const openModal = (product: any) => {
+  const openModal = async (product: any) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
+
+    // Track 'click' interaction
+    await trackUserActivity(product.id, "click");
   };
 
   const closeModal = () => {
@@ -53,42 +62,71 @@ const ProductsPage = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-3xl font-semibold py-10">Products</div>
+        {[...Array(2)].map((_, categoryIndex) => (
+          <div key={categoryIndex} className="mb-16">
+            <div className="text-2xl mb-4 bg-gray-200 h-8 w-1/4 animate-pulse"></div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[...Array(4)].map((_, productIndex) => (
+                <div
+                  key={productIndex}
+                  className="bg-gray-200 h-80 md:h-80 rounded-xl animate-pulse"
+                ></div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div className="container mx-auto px-4 py-8 text-red-500">{error}</div>
+    );
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4 py-8">
+      <Toaster position="top-right" />
       <div className="text-3xl font-semibold py-10">Products</div>
+      {/* Display Categories and Products */}
       {categories.length > 0 ? (
         categories.map((category) => (
           <div key={category.id} className="mb-16">
-            <div className="text-2xl  mb-4">{category.name}</div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="text-2xl mb-4">{category.name}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {category.products?.map((product) => (
                 <div
                   key={product.id}
-                  className="relative p-4 bg-white shadow rounded-xl cursor-pointer h-80"
+                  className="relative p-4 bg-white shadow rounded-xl cursor-pointer h-60 md:h-80"
                   onClick={() => openModal(product)}
                   style={{
-                    backgroundImage: `url(${product.image})`,
+                    backgroundImage: `url(/static/images/${product.image}.jpg)`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
                 >
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white rounded-b-xl">
-                    <div className="text-lg font-semibold">{product.name}</div>
+                    <div className="text-sm md:text-lg font-semibold">
+                      {product.name}
+                    </div>
                     <div className="flex justify-between items-center mt-2">
-                      <p className="text-gray-100">${product.price}</p>
+                      <p className="text-xs md:text-sm text-gray-100">
+                        $
+                        {typeof product.price === "number"
+                          ? product.price.toFixed(2)
+                          : product.price}
+                      </p>
                       <button
                         className="pr-1"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleAddToCart(product);
                         }}
+                        aria-label="Add to cart"
                       >
                         <svg
                           width="35"
