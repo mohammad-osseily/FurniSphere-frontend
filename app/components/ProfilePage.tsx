@@ -47,7 +47,7 @@ const ProfilePage = () => {
         data.name,
         data.email,
         data.password,
-        data.password_confirmation,
+        data.password_confirmation
       );
       Swal.fire({
         title: "Success!",
