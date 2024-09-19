@@ -2,7 +2,7 @@
 import axios from "axios";
 import { getTokenFromLocalStorage } from "./authServices";
 
-const API_URL = "http://127.0.0.1:8000/api";
+const API_URL = "http://13.36.244.88/backend/api";
 
 // Add product to cart
 export const addToCart = async (productId: number, quantity: number) => {
@@ -17,7 +17,7 @@ export const addToCart = async (productId: number, quantity: number) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
 
   return response.data;
@@ -33,7 +33,7 @@ export const clearCart = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
 
   return response.data;
@@ -57,14 +57,14 @@ export const removeFromCart = async (productId: number) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
   return response.data;
 };
 
 export const updateCartQuantity = async (
   productId: number,
-  quantity: number,
+  quantity: number
 ) => {
   const token = getTokenFromLocalStorage();
   const response = await axios.post(
@@ -76,20 +76,20 @@ export const updateCartQuantity = async (
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
   return response.data;
 };
 export const submitOrder = async (orderData: any) => {
   const token = getTokenFromLocalStorage();
   const response = await axios.post(
-    "http://127.0.0.1:8000/api/orders/create",
+    "http://13.36.244.88/backend/api/orders/create",
     orderData,
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
   return response.data;
 };
@@ -127,4 +127,3 @@ export const updateOrderStatus = async (orderId: number, status: string) => {
   );
   return response.data;
 };
-
