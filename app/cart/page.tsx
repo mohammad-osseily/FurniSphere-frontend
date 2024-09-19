@@ -9,6 +9,7 @@ import {
 import { Cart } from "@/types/cart";
 import { CartProduct } from "@/types/cartProduct";
 import Link from "next/link";
+import { Trash2, Plus, Minus, ShoppingCart } from "lucide-react";
 
 const CartPage = () => {
   const [cart, setCart] = useState<Cart | null>(null);
@@ -46,7 +47,7 @@ const CartPage = () => {
         return {
           ...prevCart,
           cart_products: prevCart.cart_products.filter(
-            (item) => item.id !== id,
+            (item) => item.id !== id
           ),
         };
       });
@@ -64,7 +65,7 @@ const CartPage = () => {
         return {
           ...prevCart,
           cart_products: prevCart.cart_products.map((item) =>
-            item.id === id ? { ...item, quantity } : item,
+            item.id === id ? { ...item, quantity } : item
           ),
         };
       });
@@ -73,86 +74,119 @@ const CartPage = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
 
-  if (!cart) return <div>Your cart is empty.</div>;
+  if (!cart || cart.cart_products.length === 0) {
+    return (
+      <div className="container mx-auto py-16 px-4 text-center">
+        <ShoppingCart className="mx-auto h-24 w-24 text-gray-400 mb-4" />
+        <h2 className="text-3xl font-semibold mb-4">Your cart is empty</h2>
+        <p className="text-gray-600 mb-8">
+          Looks like you haven't added any items to your cart yet.
+        </p>
+        <Link
+          href="/"
+          className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          Start Shopping
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10 px-4 space-y-10 lg:flex lg:space-x-10 lg:space-y-0">
       <div className="w-full lg:w-3/4">
         <h2 className="text-3xl font-semibold mb-6 text-center lg:text-left">
-          Your Cart List
+          Your Cart
         </h2>
-        {cart.cart_products.map((item: CartProduct) => (
-          <div
-            key={item.id}
-            className="flex flex-col lg:flex-row mb-6 items-center lg:space-x-4 space-y-4 lg:space-y-0"
-          >
-            <img
-              src={item.product.image}
-              alt={item.product.name}
-              className="w-32 h-32 object-cover rounded-lg mx-auto lg:mx-0"
-            />
-            <div className="flex-grow text-center lg:text-left">
-              <h3 className="text-xl font-semibold">{item.product.name}</h3>
-              <p>Category: {item.product.category_id || "N/A"}</p>
-              <p>Product Color: {item.product.color}</p>
-              <div className="flex items-center justify-center lg:justify-start space-x-2 mt-2">
-                <button
-                  className="px-2 py-1 border rounded"
-                  onClick={() =>
-                    handleQuantityChange(item.id, item.quantity - 1)
-                  }
-                  disabled={item.quantity <= 1}
-                >
-                  −
-                </button>
-                <span className="text-lg">{item.quantity}</span>
-                <button
-                  className="px-2 py-1 border rounded"
-                  onClick={() =>
-                    handleQuantityChange(item.id, item.quantity + 1)
-                  }
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <div className="text-lg font-semibold">${item.product.price}</div>
-            <button
-              className="text-red-600"
-              onClick={() => handleRemove(item.id)}
+        <div className="space-y-6">
+          {cart.cart_products.map((item: CartProduct) => (
+            <div
+              key={item.id}
+              className="flex flex-col sm:flex-row items-center bg-white p-4 rounded-lg shadow-md space-y-4 sm:space-y-0 sm:space-x-4"
             >
-              🗑️
-            </button>
-          </div>
-        ))}
+              <img
+                src={`/static/images/${item.product.image}.jpg`}
+                alt={item.product.name}
+                className="w-32 h-32 object-cover rounded-md"
+              />
+              <div className="flex-grow text-center sm:text-left">
+                <h3 className="text-xl font-semibold">{item.product.name}</h3>
+                <p className="text-gray-600">
+                  Category: {item.product.category?.name || "N/A"}
+                </p>
+                <p className="text-gray-600">Color: {item.product.color}</p>
+                <div className="flex items-center justify-center sm:justify-start space-x-2 mt-2">
+                  <button
+                    className="p-1 border rounded-full hover:bg-gray-100 transition duration-300"
+                    onClick={() =>
+                      handleQuantityChange(item.id, item.quantity - 1)
+                    }
+                    disabled={item.quantity <= 1}
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </button>
+                  <span className="text-lg font-medium w-8 text-center">
+                    {item.quantity}
+                  </span>
+                  <button
+                    className="p-1 border rounded-full hover:bg-gray-100 transition duration-300"
+                    onClick={() =>
+                      handleQuantityChange(item.id, item.quantity + 1)
+                    }
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="text-lg font-semibold">
+                ${(item.product.price * item.quantity).toFixed(2)}
+              </div>
+              <button
+                className="text-red-600 hover:text-red-800 transition duration-300"
+                onClick={() => handleRemove(item.id)}
+                aria-label="Remove item"
+              >
+                <Trash2 className="h-6 w-6" />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="w-full lg:w-1/4">
         <h2 className="text-3xl font-semibold mb-6 text-center lg:text-left">
-          Detail Summary
+          Order Summary
         </h2>
-        <div className="space-y-2 bg-white p-6 rounded-lg shadow-md">
-          <div className="flex justify-between">
-            <span>Sub Total:</span>
+        <div className="space-y-4 bg-white p-6 rounded-lg shadow-md">
+          <div className="flex justify-between text-gray-600">
+            <span>Subtotal:</span>
             <span>${subTotal}</span>
           </div>
-          <div className="flex justify-between">
-            <span>Delivery Price:</span>
+          <div className="flex justify-between text-gray-600">
+            <span>Delivery:</span>
             <span>${deliveryPrice}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-gray-600">
             <span>Taxes:</span>
             <span>${taxes}</span>
           </div>
-          <hr />
-          <div className="flex justify-between font-semibold">
+          <hr className="my-4" />
+          <div className="flex justify-between font-semibold text-lg">
             <span>Total:</span>
             <span>${total}</span>
           </div>
-          <Link href={"/checkout"}>
-            <button className="w-full py-2 mt-4 bg-primary text-white rounded-xl hover:bg-blue-700">
-              Checkout
+          <Link href="/checkout" className="block">
+            <button className="w-full py-3 mt-4 bg-primary text-white rounded-md hover:opacity-90 transition duration-300">
+              Proceed to Checkout
             </button>
           </Link>
         </div>
