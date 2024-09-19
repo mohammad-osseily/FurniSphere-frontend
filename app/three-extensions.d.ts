@@ -1,7 +1,7 @@
 // three-extensions.d.ts
 
-declare module 'three/examples/jsm/controls/OrbitControls' {
-  import { Camera, EventDispatcher, Vector3, MOUSE, TOUCH } from 'three';
+declare module "three/examples/jsm/controls/OrbitControls" {
+  import { Camera, EventDispatcher, Vector3, MOUSE, TOUCH } from "three";
 
   export class OrbitControls extends EventDispatcher {
     constructor(camera: Camera, domElement?: HTMLElement);
@@ -54,36 +54,36 @@ declare module 'three/examples/jsm/controls/OrbitControls' {
   }
 }
 
-declare module 'three/examples/jsm/loaders/GLTFLoader' {
-  import { Loader, LoadingManager, Group } from 'three';
+declare module "three/examples/jsm/loaders/GLTFLoader" {
+  import { Loader, LoadingManager, Group } from "three";
 
   export class GLTFLoader extends Loader {
-      constructor(manager?: LoadingManager);
+    constructor(manager?: LoadingManager);
 
-      load(
-          url: string,
-          onLoad: (gltf: GLTF) => void,
-          onProgress?: (event: ProgressEvent) => void,
-          onError?: (event: ErrorEvent) => void
-      ): void;
+    load(
+      url: string,
+      onLoad: (gltf: GLTF) => void,
+      onProgress?: (event: ProgressEvent) => void,
+      onError?: (event: ErrorEvent) => void
+    ): void;
 
-      parse(
-          data: ArrayBuffer | string,
-          path: string,
-          onLoad: (gltf: GLTF) => void
-      ): void;
+    parse(
+      data: ArrayBuffer | string,
+      path: string,
+      onLoad: (gltf: GLTF) => void
+    ): void;
   }
 
   export interface GLTF {
-      scene: Group;
-      scenes: Group[];
-      animations: any[];
-      cameras: any[];
-      asset: any;
+    scene: Group;
+    scenes: Group[];
+    animations: any[];
+    cameras: any[];
+    asset: any;
   }
 }
-declare module 'three/examples/jsm/loaders/OBJLoader' {
-  import { Loader, Object3D } from 'three';
+declare module "three/examples/jsm/loaders/OBJLoader" {
+  import { Loader, Object3D } from "three";
 
   export class OBJLoader extends Loader {
     constructor();
@@ -97,8 +97,8 @@ declare module 'three/examples/jsm/loaders/OBJLoader' {
   }
 }
 // GLTFLoader for .gltf/.glb
-declare module 'three/examples/jsm/loaders/GLTFLoader' {
-  import { Loader, Object3D } from 'three';
+declare module "three/examples/jsm/loaders/GLTFLoader" {
+  import { Loader, Object3D } from "three";
 
   export class GLTFLoader extends Loader {
     load(
@@ -112,8 +112,8 @@ declare module 'three/examples/jsm/loaders/GLTFLoader' {
 }
 
 // OBJLoader for .obj
-declare module 'three/examples/jsm/loaders/OBJLoader' {
-  import { Loader, Object3D } from 'three';
+declare module "three/examples/jsm/loaders/OBJLoader" {
+  import { Loader, Object3D } from "three";
 
   export class OBJLoader extends Loader {
     load(
@@ -127,8 +127,8 @@ declare module 'three/examples/jsm/loaders/OBJLoader' {
 }
 
 // FBXLoader for .fbx
-declare module 'three/examples/jsm/loaders/FBXLoader' {
-  import { Loader, Object3D } from 'three';
+declare module "three/examples/jsm/loaders/FBXLoader" {
+  import { Loader, Object3D } from "three";
 
   export class FBXLoader extends Loader {
     load(
@@ -142,8 +142,8 @@ declare module 'three/examples/jsm/loaders/FBXLoader' {
 }
 
 // ColladaLoader for .dae
-declare module 'three/examples/jsm/loaders/ColladaLoader' {
-  import { Loader, Object3D } from 'three';
+declare module "three/examples/jsm/loaders/ColladaLoader" {
+  import { Loader, Object3D } from "three";
 
   export class ColladaLoader extends Loader {
     load(
@@ -157,8 +157,8 @@ declare module 'three/examples/jsm/loaders/ColladaLoader' {
 }
 
 // Blender for .blend (Requires Blender export to .gltf/.obj)
-declare module 'three/examples/jsm/loaders/GLTFLoader' {
-  import { Loader, Object3D } from 'three';
+declare module "three/examples/jsm/loaders/GLTFLoader" {
+  import { Loader, Object3D } from "three";
 
   export class GLTFLoader extends Loader {
     load(
@@ -170,4 +170,3 @@ declare module 'three/examples/jsm/loaders/GLTFLoader' {
     parse(data: ArrayBuffer | string, path: string): Object3D;
   }
 }
-
