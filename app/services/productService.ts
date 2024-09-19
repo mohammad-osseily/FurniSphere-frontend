@@ -1,10 +1,10 @@
 // app/services/productService.ts
 
 import axios from "axios";
-import { getTokenFromLocalStorage } from './authServices';
+import { getTokenFromLocalStorage } from "./authServices";
 import { Category, Product3D } from "@/types";
 
-const API_URL = "http://127.0.0.1:8000/api"; // Adjust to your backend URL
+const API_URL = "http://13.36.244.88/backend/api"; // Adjust to your backend URL
 
 /**
  * Fetch all categories with their associated products.
@@ -24,10 +24,10 @@ export const fetchProductsWith3DModels = async (): Promise<Product3D[]> => {
     const response = await axios.get(`${API_URL}/products/3d`);
     return response.data.products;
   } catch (error) {
-    console.error('Failed to fetch 3D products:', error);
+    console.error("Failed to fetch 3D products:", error);
     throw error;
   }
-}
+};
 // Function to create a new product
 export const createProduct = async (productData: any) => {
   const token = getTokenFromLocalStorage(); // Get the auth token from local storage
