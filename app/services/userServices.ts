@@ -2,7 +2,7 @@ import axios from "axios";
 import { getTokenFromLocalStorage } from "./authServices";
 import { User } from "@/types"; // Assuming you have a User type
 
-const API_URL = "http://127.0.0.1:8000/api"; // Adjust to your backend URL
+const API_URL = "http://13.36.244.88/backend/api"; // Adjust to your backend URL
 
 /**
  * Fetch all users (Admin only).
@@ -30,14 +30,21 @@ export const fetchUsers = async (): Promise<User[]> => {
  * @param userData - Data to update the user with (name, email, role)
  * @returns The updated user data.
  */
-export const updateUser = async (id: number, userData: { name: string; email: string; role: string }): Promise<User> => {
+export const updateUser = async (
+  id: number,
+  userData: { name: string; email: string; role: string }
+): Promise<User> => {
   const token = getTokenFromLocalStorage(); // Get the auth token from local storage
   try {
-    const response = await axios.post(`${API_URL}/users/${id}/update`, userData, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass the token in the headers for authorization
-      },
-    });
+    const response = await axios.post(
+      `${API_URL}/users/${id}/update`,
+      userData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the headers for authorization
+        },
+      }
+    );
     return response.data.user;
   } catch (error) {
     console.error(`Error updating user with ID ${id}:`, error);
@@ -53,11 +60,15 @@ export const updateUser = async (id: number, userData: { name: string; email: st
 export const deleteUser = async (id: number): Promise<void> => {
   const token = getTokenFromLocalStorage(); // Get the auth token from local storage
   try {
-    await axios.post(`${API_URL}/users/${id}/delete`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass the token in the headers for authorization
-      },
-    });
+    await axios.post(
+      `${API_URL}/users/${id}/delete`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass the token in the headers for authorization
+        },
+      }
+    );
   } catch (error) {
     console.error(`Error deleting user with ID ${id}:`, error);
     throw error;
