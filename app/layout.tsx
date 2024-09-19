@@ -2,10 +2,8 @@
 import { ReactNode } from "react";
 import "../public/static/css/global.css";
 import { Roboto } from "next/font/google";
-import ClientProvider from "./ClientProvider"; // New component
 import NavbarWrapper from "./components/NavbarWrapper"; // Use the new wrapper
 import { Provider } from "react-redux"; // Import Provider
-import { store } from "./store/store"; // Import the store
 
 export const metadata = {
   title: "FurniSphere",
