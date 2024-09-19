@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import AdminSidebar from '../../components/AdminSidebar'
-import ThreeDManipulation from '../../components/ThreeDManipulation'
-import Add3DProduct from '../../components/Add3DProduct'
+import React, { useState } from "react";
+import AdminSidebar from "../../components/AdminSidebar";
+import ThreeDManipulation from "../../components/ThreeDManipulation";
+import Add3DProduct from "../../components/Add3DProduct";
 
 interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
+  children?: React.ReactNode;
+  index: number;
+  value: number;
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -24,29 +24,34 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && <div className="p-3">{children}</div>}
     </div>
-  )
+  );
 }
 
 export default function ThreeDPage() {
-  const [tabValue, setTabValue] = useState(0)
+  const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (newValue: number) => {
-    setTabValue(newValue)
-  }
+    setTabValue(newValue);
+  };
 
   return (
     <div className="flex h-screen">
       <AdminSidebar />
       <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
         <div className="container mx-auto px-6 py-8">
-          <h3 className="text-gray-700 text-3xl font-medium mb-4">3D Product Management</h3>
+          <h3 className="text-gray-700 text-3xl font-medium mb-4">
+            3D Product Management
+          </h3>
           <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8" aria-label="3D product management tabs">
+            <nav
+              className="-mb-px flex space-x-8"
+              aria-label="3D product management tabs"
+            >
               <button
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   tabValue === 0
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? "border-primary text-primary"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
                 onClick={() => handleTabChange(0)}
               >
@@ -55,8 +60,8 @@ export default function ThreeDPage() {
               <button
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   tabValue === 1
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? "border-primary text-primary"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
                 onClick={() => handleTabChange(1)}
               >
@@ -73,5 +78,5 @@ export default function ThreeDPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
