@@ -1,7 +1,7 @@
 // app/services/authServices.ts
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/api"; // Your API base URL
+const API_URL = "http://13.36.244.88/backend/api"; // Your API base URL
 
 // Save token to local storage
 export const saveTokenToLocalStorage = (token: string) => {
@@ -50,7 +50,7 @@ export const registerUser = async (
   name: string,
   email: string,
   password: string,
-  password_confirmation: string,
+  password_confirmation: string
 ) => {
   const response = await axios.post(`${API_URL}/auth/register`, {
     name,
@@ -77,7 +77,7 @@ export const logout = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
   logoutUser();
 };
@@ -92,7 +92,7 @@ export const refreshToken = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
   const newToken = response.data.authorization.token;
   saveTokenToLocalStorage(newToken);
@@ -102,7 +102,7 @@ export const updateProfile = async (
   name: string,
   email: string,
   password: string,
-  password_confirmation: string,
+  password_confirmation: string
 ) => {
   const token = getTokenFromLocalStorage();
   const response = await axios.post(
@@ -112,7 +112,7 @@ export const updateProfile = async (
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
 
   return response.data;
