@@ -2,7 +2,7 @@
 import axios from "axios";
 import { getTokenFromLocalStorage } from "./authServices";
 
-const API_URL = "http://13.36.244.88/backend/api";
+const API_URL = "http://127.0.0.1:8000/api";
 
 // Add product to cart
 export const addToCart = async (productId: number, quantity: number) => {
@@ -83,7 +83,7 @@ export const updateCartQuantity = async (
 export const submitOrder = async (orderData: any) => {
   const token = getTokenFromLocalStorage();
   const response = await axios.post(
-    "http://13.36.244.88/backend/api/orders/create",
+    "http://127.0.0.1:8000/api/orders/create",
     orderData,
     {
       headers: {
@@ -126,4 +126,19 @@ export const updateOrderStatus = async (orderId: number, status: string) => {
     }
   );
   return response.data;
+};
+export const cancelOrder = async (orderId: number) => {
+  const token = getTokenFromLocalStorage();
+
+  const response = await axios.post(
+    `${API_URL}/orders/${orderId}/cancel`,
+    { status },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+  
 };

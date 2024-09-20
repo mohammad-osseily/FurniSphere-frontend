@@ -2,7 +2,7 @@ import axios from "axios";
 import { getTokenFromLocalStorage } from "./authServices";
 import { Product3D } from "@/types";
 
-const API_URL = "http://13.36.244.88/backend/api"; // Adjust to your backend URL
+const API_URL = "http://127.0.0.1:8000/api"; // Adjust to your backend URL
 
 export const fetchAll3DProducts = async (): Promise<Product3D[]> => {
   try {
