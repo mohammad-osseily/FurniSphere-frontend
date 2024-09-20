@@ -11,7 +11,6 @@ const OrdersPage = () => {
 
       {/* Main Content */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <div className="text-3xl font-semibold pb-10">Order Mangement</div>
         <OrderManagement />
       </Box>
     </Box>

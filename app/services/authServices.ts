@@ -101,13 +101,23 @@ export const refreshToken = async () => {
 export const updateProfile = async (
   name: string,
   email: string,
-  password: string,
-  password_confirmation: string
+  password?: string,
+  password_confirmation?: string
 ) => {
   const token = getTokenFromLocalStorage();
+
+  // Create a payload object with only the fields that need updating
+  const payload: Record<string, string> = { name, email };
+
+  // Add password and password_confirmation only if they are provided
+  if (password && password_confirmation) {
+    payload.password = password;
+    payload.password_confirmation = password_confirmation;
+  }
+
   const response = await axios.post(
     `${API_URL}/user/profile/update`,
-    { name, email, password, password_confirmation },
+    payload,
     {
       headers: {
         Authorization: `Bearer ${token}`,

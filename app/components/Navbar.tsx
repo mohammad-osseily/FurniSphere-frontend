@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getUserFromLocalStorage, logoutUser } from "../services/authServices";
@@ -12,12 +12,19 @@ interface User {
   role: string;
 }
 
+const LoadingSpinner: React.FC = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+  </div>
+);
+
 const Navbar: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [cartItemCount, setCartItemCount] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
 
@@ -33,6 +40,19 @@ const Navbar: React.FC = () => {
     }, 500);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleLogout = () => {
     logoutUser();
     setUser(null);
@@ -43,12 +63,8 @@ const Navbar: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleDropdownOpen = () => {
-    setIsDropdownOpen(true);
-  };
-
-  const handleDropdownClose = () => {
-    setIsDropdownOpen(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -73,7 +89,7 @@ const Navbar: React.FC = () => {
 
           <div className="flex items-center space-x-4">
             {loading ? (
-              <div className="text-gray-700">Loading...</div>
+              <LoadingSpinner />
             ) : user ? (
               <>
                 <Link href="/cart" className="relative">
@@ -109,12 +125,11 @@ const Navbar: React.FC = () => {
                     </span>
                   )}
                 </Link>
-                <div
-                  className="relative"
-                  onMouseEnter={handleDropdownOpen}
-                  onMouseLeave={handleDropdownClose}
-                >
-                  <button className="flex items-center space-x-2">
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    className="flex items-center space-x-2"
+                    onClick={toggleDropdown}
+                  >
                     <User className="text-gray-700 hover:text-primary transition duration-300" />
                   </button>
                   {isDropdownOpen && (

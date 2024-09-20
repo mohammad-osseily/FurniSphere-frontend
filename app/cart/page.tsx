@@ -10,6 +10,12 @@ import { Cart } from "@/types/cart";
 import { CartProduct } from "@/types/cartProduct";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ShoppingCart } from "lucide-react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const CartPage = () => {
   const [cart, setCart] = useState<Cart | null>(null);
@@ -19,58 +25,76 @@ const CartPage = () => {
   const [deliveryPrice, setDeliveryPrice] = useState<string>("0.00");
   const [total, setTotal] = useState<string>("0.00");
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const cartData = await getCart();
-        setCart(cartData.cart);
-        setSubTotal(cartData.sub_total);
-        setTaxes(cartData.taxes);
-        setDeliveryPrice(cartData.delivery_price);
-        setTotal(cartData.total);
-      } catch (error) {
-        console.error("Failed to load cart:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCart = async () => {
+    try {
+      const cartData = await getCart();
+      setCart(cartData.cart);
+      setSubTotal(cartData.sub_total);
+      setTaxes(cartData.taxes);
+      setDeliveryPrice(cartData.delivery_price);
+      setTotal(cartData.total);
+    } catch (error) {
+      console.error("Failed to load cart:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCart();
   }, []);
 
-  const handleRemove = async (id: number) => {
-    try {
-      await removeFromCart(id);
-      setCart((prevCart) => {
-        if (!prevCart) return prevCart;
-
-        return {
-          ...prevCart,
-          cart_products: prevCart.cart_products.filter(
-            (item) => item.id !== id
-          ),
-        };
-      });
-    } catch (error) {
-      console.error("Failed to remove item:", error);
-    }
+  const handleRemove = async (id: number, productName: string) => {
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to remove ${productName} from your cart?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, remove it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await removeFromCart(id);
+          await fetchCart();
+          toast.success(`${productName} has been removed from your cart.`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        } catch (error) {
+          console.error("Failed to remove item:", error);
+          toast.error("Failed to remove item. Please try again.", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      }
+    });
   };
 
   const handleQuantityChange = async (id: number, quantity: number) => {
     try {
       await updateCartQuantity(id, quantity);
-      setCart((prevCart) => {
-        if (!prevCart) return prevCart;
-
-        return {
-          ...prevCart,
-          cart_products: prevCart.cart_products.map((item) =>
-            item.id === id ? { ...item, quantity } : item
-          ),
-        };
-      });
+      await fetchCart();
     } catch (error) {
       console.error("Failed to update quantity:", error);
+      toast.error("Failed to update quantity. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -91,8 +115,8 @@ const CartPage = () => {
           Looks like you haven't added any items to your cart yet.
         </p>
         <Link
-          href="/"
-          className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300"
+          href="/products"
+          className="bg-primary text-white px-6 py-3 rounded-md hover:opacity-90 transition duration-300"
         >
           Start Shopping
         </Link>
@@ -102,6 +126,7 @@ const CartPage = () => {
 
   return (
     <div className="container mx-auto py-10 px-4 space-y-10 lg:flex lg:space-x-10 lg:space-y-0">
+      <ToastContainer />
       <div className="w-full lg:w-3/4">
         <h2 className="text-3xl font-semibold mb-6 text-center lg:text-left">
           Your Cart
@@ -153,7 +178,7 @@ const CartPage = () => {
               </div>
               <button
                 className="text-red-600 hover:text-red-800 transition duration-300"
-                onClick={() => handleRemove(item.id)}
+                onClick={() => handleRemove(item.id, item.product.name)}
                 aria-label="Remove item"
               >
                 <Trash2 className="h-6 w-6" />

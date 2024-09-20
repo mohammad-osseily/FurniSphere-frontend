@@ -46,12 +46,12 @@ export default function AdminSidebar() {
       }}
     >
       {/* Logo */}
-      <Box sx={{ pt: 2, textAlign: "center", margin: "0 auto " }}>
+      <Box sx={{ pt: 4, textAlign: "right", pl: 2 }}>
         <Image
-          src="/static/images/logo2.png"
+          src="/static/images/whiteLogo.png"
           alt="Logo"
           width={100}
-          height={60}
+          height={100}
         />
       </Box>
 

@@ -111,10 +111,10 @@ const UserManagement: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen p-8 bg-gray-100">
+    <div className="min-h-screen p-8  bg-gray-100">
       <ToastContainer />
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
+        <h1 className="text-4xl font-bold text-left mb-10 text-gray-800">
           User Management
         </h1>
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">

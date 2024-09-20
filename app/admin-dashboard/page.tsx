@@ -12,7 +12,7 @@ const AdminDashboard: React.FC = () => {
 
       {/* Main content */}
       <div className="flex-1 p-4 bg-gray-100">
-        <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+        
         {/* Render the User Management component */}
         <UserMangment />
       </div>
