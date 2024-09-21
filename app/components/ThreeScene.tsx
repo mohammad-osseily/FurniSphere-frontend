@@ -202,7 +202,7 @@ const ThreeScene = () => {
     The user asked: "${currentInput}".`;
 
     try {
-      const response = await axios.post('http://13.36.244.88/backend/api/chat', { message: chatPrompt });
+      const response = await axios.post('http://127.0.0.1:8000/api/chat', { message: chatPrompt });
       const aiResponse = response.data.response;
 
       setChatResponse(aiResponse);
